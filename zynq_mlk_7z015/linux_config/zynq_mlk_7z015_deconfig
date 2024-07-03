@@ -1,121 +1,179 @@
+# 个选项会在内核版本字符串中添加 "-xilinx" 后缀。这有助于识别该内核版本是针对 Xilinx 硬件平台定制的。
 CONFIG_LOCALVERSION="-xilinx"
+# 这个选项启用了 SystemV 风格的进程间通信(IPC)机制,如信号量、消息队列和共享内存。这为内核提供了丰富的 IPC 功能,方便不同进程之间的通信和数据交换。
 CONFIG_SYSVIPC=y
+# 这个选项启用了內核的"no-HZ" 或者"idle dynticks"特性。这种特性可以在系统空闲时降低定时器中断的频率,从而提高系统的能源效率。
 CONFIG_NO_HZ=y
+# 这个选项启用了高精度定时器功能。这可以提高内核的时间管理精度,对于实时系统非常有用。
 CONFIG_HIGH_RES_TIMERS=y
+# Linux 内核的一个重要配置选项,它与内核的抢占式调度机制相关。:
+# ONFIG_PREEMPT 选项用于启用内核的抢占式调度。在抢占式内核中,当一个高优先级的任务需要 CPU 时,内核会中断当前正在运行的低优先级任务,转而执行高优先级任务。
+# 这与传统的非抢占式内核不同,在非抢占式内核中,低优先级任务只有在主动放弃 CPU 时才会被切换。
 CONFIG_PREEMPT=y
+# Linux 内核的一个重要配置选项,它与内核配置信息的导出功能相关。CONFIG_IKCONFIG 选项用于启用内核配置信息的导出功能。
+# 当启用这个选项时,内核会在编译时将当前的配置选项信息保存到内核映像中。
 CONFIG_IKCONFIG=y
+# Linux 内核的另一个与内核配置信息相关的配置选项。它与前面提到的 CONFIG_IKCONFIG 选项密切相关。CONFIG_IKCONFIG_PROC 选项用于控制内核配置信息在 procfs 中的导出形式。
+# 当 CONFIG_IKCONFIG 选项被启用时,CONFIG_IKCONFIG_PROC 选项决定了内核配置信息在 /proc/config.gz 文件中的呈现方式。
 CONFIG_IKCONFIG_PROC=y
+# Linux 内核的一个重要配置选项,它与内核的日志缓冲区大小相关。当 CONFIG_LOG_BUF_SHIFT=14 时,内核日志缓冲区的大小为 2^14 = 16384 字节,即 16 KB。
+# 内核日志缓冲区用于存储内核在运行过程中产生的各种日志信息,例如内核启动信息、驱动程序消息、内核panic信息等。
 CONFIG_LOG_BUF_SHIFT=14
+# Linux 内核的一个非常重要的配置选项,它与 Control Groups (Cgroups) 功能相关。Cgroups 是 Linux 内核提供的一个资源管理机制,它可以对进程和资源进行分组管理和限制。
+# 当 CONFIG_CGROUPS 选项被启用时,内核会支持 Cgroups 功能。
 CONFIG_CGROUPS=y
-CONFIG_BLK_DEV_INITRD=y
-# CONFIG_RD_GZIP is not set
-# CONFIG_RD_BZIP2 is not set
-# CONFIG_RD_LZO is not set
-# CONFIG_RD_LZ4 is not set
-# CONFIG_RD_ZSTD is not sets
+# Linux 内核的一个调试选项,它用于启用内核内存泄漏检测功能。当 CONFIG_DEBUG_KMEMLEAK=y 被启用时,内核会启用 Kmemleak 内存泄漏检测器。
+# Kmemleak 是一个动态内存泄漏检测工具,它可以在运行时监控内核内存的使用情况,并检测可能存在的内存泄漏。
+CONFIG_DEBUG_KMEMLEAK=y
+# Linux 内核的一个编译选项,它用于指示编译器在编译内核时优化代码大小而不是执行速度。
+# 当 CONFIG_CC_OPTIMIZE_FOR_SIZE 被启用时,编译器会尝试生成更小的代码,通过一些空间优化技术来减少最终内核映像的大小。
 CONFIG_CC_OPTIMIZE_FOR_SIZE=y
 # CONFIG_BUG is not set
+# 这个选项启用了内核比较(kernel compare)功能。它允许比较两个进程的内存映射、打开的文件等信息,用于调试和安全检查。
 CONFIG_KCMP=y
+# 这个选项表示内核是为嵌入式系统环境而构建的。它会启用一些针对嵌入式系统的优化和特性。
 CONFIG_EMBEDDED=y
+# 这个选项启用了内核性能监测子系统。它提供了一个统一的性能事件采集和分析框架。
 CONFIG_PERF_EVENTS=y
+# 这个选项启用了内核的 SLAB 内存分配器。SLAB 是一种高效的内存分配和回收机制,适用于嵌入式系统。
 CONFIG_SLAB=y
+# 这两个选项分别启用了 ARM 的 Versatile Express 和 Xilinx Zynq 架构支持。它们对应了不同的 ARM 硬件平台。
+# 内核会包含针对 Versatile Express 板载设备的各种硬件驱动,如 UART、GPIO、定时器等。
 CONFIG_ARCH_VEXPRESS=y
+# 启用对 Xilinx Zynq 系列 SoC(System-on-Chip)的支持
 CONFIG_ARCH_ZYNQ=y
-CONFIG_PL310_ERRATA_588369=y
-CONFIG_PL310_ERRATA_727915=y
-CONFIG_PL310_ERRATA_769419=y
-CONFIG_ARM_ERRATA_754322=y
-CONFIG_ARM_ERRATA_754327=y
-CONFIG_ARM_ERRATA_764369=y
-CONFIG_ARM_ERRATA_775420=y
+# 这个选项启用了对称多处理(SMP)支持。它允许内核在多核 ARM 处理器上进行并行处理。
 CONFIG_SMP=y
+# 这两个选项分别启用了内核调度器对多核(MC)和超线程(SMT)的优化支持。它们可以提高多核 ARM 处理器的调度效率。
 CONFIG_SCHED_MC=y
 CONFIG_SCHED_SMT=y
+# 这些选项支持 ARM 的 big.LITTLE 异构多核架构。
 CONFIG_BIG_LITTLE=y
+# 它们允许内核根据负载在大核和小核之间进行动态切换,以优化性能和功耗。
 CONFIG_BL_SWITCHER=y
+# 这个选项启用了 CPU 热插拔功能。允许在运行时动态地启用或禁用 CPU 核心。
 CONFIG_HOTPLUG_CPU=y
+# 这个选项启用了对高端内存(high memory)的支持。在 ARM 架构上,这可以扩展内存地址空间。
 CONFIG_HIGHMEM=y
+# 这个选项启用了 CPU 频率调scaling 功能。它允许内核根据负载动态调整 CPU 频率,以平衡性能和功耗。
 CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE=y
+#CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE=y
 CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-CONFIG_CPU_IDLE=y
+#调节CPU频率
+#CONFIG_CPU_FREQ_GOV_POWERSAVE=y  #最低频率
+#CONFIG_CPU_FREQ_GOV_ONDEMAND=y     #定期检查负载，根据负载调节
+#CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y 
+#CONFIG_CPU_IDLE=y
+# 对 Xilinx Zynq 系列 SoC 的 CPU 空闲状态管理支持。
 CONFIG_ARM_ZYNQ_CPUIDLE=y
+# 这个选项启用了对 ARM 体系结构的矢量浮点处理器(VFP)的支持。VFP 是 ARM 处理器中用于高效处理浮点运算的硬件单元。
+# 启用这个选项可以让内核充分利用 VFP 的性能优势,提高浮点运算的速度。
 CONFIG_VFP=y
+# 这个选项启用了对 ARM NEON 指令集的支持。NEON 是 ARM 体系结构中的一种 SIMD(Single Instruction, Multiple Data)扩展指令集。
+# 它可以提高多媒体处理、信号处理等应用的性能。
 CONFIG_NEON=y
 # CONFIG_SUSPEND is not set
+# 用于启用电源管理(Power Management)功能。允许内核对设备进行动态电源状态管理,如挂起、恢复等。
 CONFIG_PM=y
 # CONFIG_GCC_PLUGINS is not set
+# 这是一个关键选项,启用 Linux 内核的模块化功能。开启此选项后,内核能够支持加载和卸载内核模块。
 CONFIG_MODULES=y
+# 允许内核支持模块的动态卸载。当某个模块不再需要时,可以被安全地从内核中卸载。
 CONFIG_MODULE_UNLOAD=y
+# 这个选项允许在某些情况下强制卸载内核模块。即使模块正在被使用,也可以强制卸载它。这在调试或系统故障时很有用。
 CONFIG_MODULE_FORCE_UNLOAD=y
+#这个选项启用模块版本机制。当内核接口发生变化时,模块可以检测到并拒绝加载,从而避免因内核接口变化而导致的兼容性问题。
 CONFIG_MODVERSIONS=y
 # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
 # CONFIG_COMPACTION is not set
-CONFIG_CMA=y
-CONFIG_NET=y
-CONFIG_PACKET=y
-CONFIG_UNIX=y
-CONFIG_INET=y
-CONFIG_IP_MULTICAST=y
+CONFIG_CMA=y #  启用连续内存分配器(Contiguous Memory Allocator)功能。这有助于为需要大块连续内存的设备分配内存。
+CONFIG_NET=y # 启用网络子系统的核心功能。这是网络相关配置的基础。
+CONFIG_PACKET=y # 启用原始 packet 套接字支持,用于直接访问数据链路层。
+CONFIG_UNIX=y # 启用 UNIX 域套接字支持。这是 Linux 内核中进程间通信的一种重要机制。
+CONFIG_INET=y # 启用 IPv4 网络协议支持。
+CONFIG_IP_MULTICAST=y # 启用 IP 多播支持。
+# 启用 IP 即插即用功能,包括 DHCP、BOOTP 和 RARP 等。
 CONFIG_IP_PNP=y
 CONFIG_IP_PNP_DHCP=y
 CONFIG_IP_PNP_BOOTP=y
 CONFIG_IP_PNP_RARP=y
-CONFIG_NET_IPIP=m
-CONFIG_SYN_COOKIES=y
-CONFIG_BRIDGE=m
-CONFIG_VLAN_8021Q=m
-CONFIG_UEVENT_HELPER=y
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_CONNECTOR=y
-CONFIG_MTD=y
-CONFIG_MTD_CMDLINE_PARTS=y
-CONFIG_MTD_BLOCK=y
-CONFIG_MTD_CFI=y
-CONFIG_MTD_CFI_AMDSTD=y
-CONFIG_MTD_PHYSMAP=y
-CONFIG_MTD_PHYSMAP_OF=y
-CONFIG_MTD_RAW_NAND=y
-CONFIG_MTD_NAND_PL35X=y
-CONFIG_MTD_SPI_NOR=y
+CONFIG_NET_IPIP=m # 模块形式编译 IP over IP (tunneling) 功能。
+CONFIG_SYN_COOKIES=y # 启用 SYN Cookies 机制,用于缓解 SYN 洪水攻击。
+CONFIG_BRIDGE=m # 以模块形式编译网桥功能,用于连接不同网络段。
+CONFIG_VLAN_8021Q=m # 以模块形式编译 802.1Q VLAN 标记支持。
+CONFIG_UEVENT_HELPER=y # 启用 uevent 助手,用于处理设备事件。
+CONFIG_DEVTMPFS=y # 启用开机时自动挂载 devtmpfs 文件系统的功能。
+CONFIG_DEVTMPFS_MOUNT=y # 确保在rootfs挂载之前devtmpfs就已经挂载好。
+CONFIG_CONNECTOR=y #  启用 Connector 子系统,用于进程间通信。
+
+CONFIG_MTD=y # 启用 MTD (Memory Technology Devices) 子系统的核心功能。
+CONFIG_MTD_CMDLINE_PARTS=y # 允许通过内核命令行来定义 MTD 分区
+CONFIG_MTD_BLOCK=y # 启用 MTD 块设备接口,使 MTD 设备可以作为标准块设备使用。
+CONFIG_MTD_CFI=y # 启用通用闪存接口 (Common Flash Interface, CFI) 对闪存设备的支持。
+CONFIG_MTD_CFI_AMDSTD=y # 启用对 AMD/Fujitsu 兼容闪存芯片的支持。
+CONFIG_MTD_PHYSMAP=y # 启用物理映射 MTD 驱动程序,可将物理内存地址映射到 MTD 设备。
+CONFIG_MTD_PHYSMAP_OF=y #启用设备树支持的物理映射 MTD 驱动程序。
+#CONFIG_MTD_RAW_NAND=y # 启用原始 NAND 闪存设备的支持。
+#CONFIG_MTD_NAND_PL35X=y # 启用Pixelworks PL35X NAND 闪存控制器的支持。
+CONFIG_MTD_SPI_NOR=y # 启用 SPI NOR 闪存设备的支持。
+
 CONFIG_MTD_UBI=y
+# linux 内核中与设备树叠加(Device Tree Overlays)相关的一个配置选项。当这个选项被启用时,内核会支持在运行时动态修改设备树的能力。
 CONFIG_OF_OVERLAY=y
+#  Linux 内核中与通过 ConfigFS 接口操作设备树相关的一个配置选项。当这个选项被启用时,内核会支持通过 ConfigFS 接口动态地创建、修改和删除设备树节点。
 CONFIG_OF_CONFIGFS=y
+# 与内核的初始 RAM 磁盘 (initrd) 功能相关。当 CONFIG_BLK_DEV_INITRD 选项被启用时,内核会支持在启动时加载和使用初始 RAM 磁盘。
+# 初始 RAM 磁盘是一个小型的临时文件系统,它在内核启动阶段被装载并用于执行一些初始化任务。
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_INITRAMFS_SOURCE=y
+#CONFIG_RD_GZIP=y
+# Linux 内核中与虚拟块设备 loop 驱动相关的一个配置选项。当这个选项被启用时,内核会支持创建和使用 loop 设备,从而允许将文件作为块设备使用。
 CONFIG_BLK_DEV_LOOP=y
+# Linux 内核中与内存块设备(RAM 磁盘)相关的一个配置选项。当这个选项被启用时,内核会包含对内存块设备的支持。
 CONFIG_BLK_DEV_RAM=y
+# 是 Linux 内核中与块设备 RAM 的大小相关的一个配置选项。当这个选项被启用时,它可以设置 RAM 块设备的默认大小。
+# 块设备 RAM 是一种基于内存的块设备,也称为 RAM 磁盘或 RAM 盘。
 CONFIG_BLK_DEV_RAM_SIZE=16384
+#  Linux 内核中与Xilinx FPGA设备上的流量生成器IP核相关的一个配置选项。当这个选项被启用时,内核会包含对Xilinx FPGA上的流量生成器IP核的支持。
+# 流量生成器IP核能够在FPGA上生成各种网络流量,用于测试和诊断网络设备和系统。
 CONFIG_XILINX_TRAFGEN=y
-CONFIG_EEPROM_AT24=y
-CONFIG_EEPROM_AT25=y
-CONFIG_MISC_FPGA_ISP=y
+# Linux 内核中与 AT24 系列 EEPROM 芯片相关的一个配置选项
+#CONFIG_EEPROM_AT24=y
+#CONFIG_EEPROM_AT25=y
+# Linux 内核中与 FPGA 设备的图像信号处理器(ISP)相关的一个配置选项。当这个选项被启用时,内核会包含对 FPGA ISP 设备的支持。
+# 内核会包含对 FPGA ISP 设备的驱动支持。
+#CONFIG_MISC_FPGA_ISP=y
+# 是 Linux 内核中与网络设备相关的一个顶层配置选项。当这个选项被启用时,内核会包含对各种网络设备驱动的支持。
+#	除了 CONFIG_NETDEVICES 这个顶层选项,内核中还有许多更细化的网络设备驱动配置选项,如:
+#	CONFIG_ETHERNET：以太网设备驱动
+#	CONFIG_WIRELESS：无线网络设备驱动
+#	CONFIG_DUMMY：虚拟网络设备驱动
 CONFIG_NETDEVICES=y
+# Linux 内核中与 MACB (Ethernet Media Access Controller with Buffers) 以太网控制器相关的一个配置选项。当这个选项被启用时,内核会包含对 MACB 控制器的支持。
+# MACB 是一种基于 Atmel 公司设计的以太网媒体访问控制器 (Media Access Controller)。MACB 控制器提供了基本的以太网数据包收发和处理功能,通常集成在 Atmel 公司的微控制器或系统芯片中。
+# 当该选项被启用时,Linux 内核会包含对 MACB 以太网控制器的专门驱动支持。
 CONFIG_MACB=y
-# CONFIG_NET_VENDOR_CIRRUS is not set
-# CONFIG_NET_VENDOR_FARADAY is not set
-# CONFIG_NET_VENDOR_MARVELL is not set
-# CONFIG_NET_VENDOR_MICREL is not set
-# CONFIG_NET_VENDOR_MICROCHIP is not set
-# CONFIG_NET_VENDOR_NATSEMI is not set
-# CONFIG_NET_VENDOR_SEEQ is not set
-# CONFIG_NET_VENDOR_SMSC is not set
-# CONFIG_NET_VENDOR_STMICRO is not set
-# CONFIG_NET_VENDOR_VIA is not set
-# CONFIG_NET_VENDOR_WIZNET is not set
+# 网口驱动必要的驱动开关 
+# Linux 内核中与 Xilinx Ethernet MAC Lite (EMACLITE) 以太网控制器相关的一个配置选项。当这个选项被启用时,内核会包含对 Xilinx EMACLITE 控制器的支持。
 CONFIG_XILINX_EMACLITE=y
+# Linux 内核中与 Xilinx AXI 以太网 MAC (Media Access Controller) 控制器相关的一个配置选项。当这个选项被启用时,内核会包含对 Xilinx AXI EMAC 控制器的支持。
 CONFIG_XILINX_AXI_EMAC=y
-CONFIG_MARVELL_PHY=y
+# 当这个选项被启用时,Linux 内核会包含针对 Realtek PHY 芯片的特定驱动和支持代码。
 CONFIG_REALTEK_PHY=y
-CONFIG_VITESSE_PHY=y
+# 当该选项被启用时,内核会包含一个基于软件模拟的 MDIO 总线驱动。
+# 这个驱动可以在没有专用的 MDIO 硬件接口的情况下,通过使用通用的 GPIO 引脚来实现 MDIO 总线功能。
 CONFIG_MDIO_BITBANG=y
 # CONFIG_USB_NET_DRIVERS is not set
 # CONFIG_WLAN is not set
+# Linux 内核中与输入子系统相关的一个配置选项,它启用了输入设备键盘映射的稀疏编码。
+# 输入子系统需要将输入设备产生的原始输入事件映射到具体的键盘码(keycodes)。这个映射过程就是键盘映射(keymapping)。
 CONFIG_INPUT_SPARSEKMAP=y
+# Linux 内核中与输入子系统相关的一个配置选项,它启用了 evdev 输入事件设备驱动。当该选项被启用时,Linux 内核会编译并包含 evdev 输入事件设备驱动。
+# 这个驱动可以将各种输入设备产生的原始输入事件转换为标准的 evdev 事件,供用户空间程序使用。
 CONFIG_INPUT_EVDEV=y
+# Linux 内核中与键盘输入设备相关的一个配置选项,它启用了基于 GPIO 接口的键盘驱动。
 CONFIG_KEYBOARD_GPIO=y
+# Linux 内核中与基于 GPIO 的键盘输入设备相关的一个配置选项。当此选项被启用时,内核会使用轮询方式来检测 GPIO 键盘的输入事件,而不是使用中断方式。
 CONFIG_KEYBOARD_GPIO_POLLED=y
 # CONFIG_LEGACY_PTYS is not set
 CONFIG_SERIAL_XILINX_PS_UART=y
@@ -124,88 +182,123 @@ CONFIG_SERIAL_XILINX_PS_UART_CONSOLE=y
 CONFIG_I2C=y
 CONFIG_I2C_CHARDEV=y
 CONFIG_I2C_MUX=y
-CONFIG_I2C_MUX_PCA954x=y
+CONFIG_I2C_PCA9534=y
 CONFIG_I2C_CADENCE=y
 CONFIG_SPI=y
 CONFIG_SPI_CADENCE=y
 CONFIG_SPI_XILINX=y
 CONFIG_SPI_ZYNQ_QSPI=y
+#####用于控制是否将 GPIO 驱动程序的 sysfs 接口编译到内核中
 CONFIG_GPIO_SYSFS=y
 CONFIG_GPIO_XILINX=y
 CONFIG_GPIO_ZYNQ=y
-CONFIG_PMBUS=y
-CONFIG_SENSORS_UCD9000=y
-CONFIG_SENSORS_UCD9200=y
-CONFIG_THERMAL=y
-CONFIG_CPU_THERMAL=y
+#####
+CONFIG_THERMAL=y #CPU温度检测
+CONFIG_CPU_THERMAL=y#CPU温度检测
 CONFIG_WATCHDOG=y
 CONFIG_XILINX_WATCHDOG=y
 CONFIG_CADENCE_WATCHDOG=y
-CONFIG_REGULATOR=y
-CONFIG_SOUND=y
-CONFIG_SND=y
-CONFIG_SND_SOC=y
-CONFIG_SND_SOC_ADI=y
-CONFIG_SND_SOC_ADI_AXI_I2S=y
-CONFIG_SND_SOC_ADI_AXI_SPDIF=y
-CONFIG_HIDRAW=y
-CONFIG_HID_MICROSOFT=y
-CONFIG_USB_ULPI_BUS=y
+#CONFIG_REGULATOR=y #将电源调节器框架和相关驱动程序编译
+#CONFIG_HIDRAW=y #是否将 HIDRAW 子系统编译到内核中
+CONFIG_HID_MICROSOFT=y #Microsoft 品牌的 HID 设备驱动程序编译到内核中
+CONFIG_USB_ULPI_BUS=y #ULPI 总线支持编译到内核中
 CONFIG_USB=y
+# EHCI 是 USB 2.0 规范中定义的一种高速 USB 主机控制器接口，它用于控制是否将 EHCI 主机控制器驱动程序编译到内核中。
 CONFIG_USB_EHCI_HCD=y
-CONFIG_USB_EHCI_ROOT_HUB_TT=y
+# EHCI 根集线器事务转换器(Root Hub Transaction Translator)支持编译到内核中。
+#CONFIG_USB_EHCI_ROOT_HUB_TT=y
 # CONFIG_USB_EHCI_TT_NEWSCHED is not set
-CONFIG_NOP_USB_XCEIV=y
+CONFIG_NOP_USB_XCEIV=y #将 NOP USB 收发器接口支持编译到内核中
+# 它用于控制是否将 ULPI USB 收发器接口支持编译到内核中，
+# ULPI 是一种 USB 收发器接口标准,用于连接 USB 主控制器和外部的 USB 物理层收发器芯片。
 CONFIG_USB_ULPI=y
+# 将 USB 角色切换支持编译到内核中，USB 角色切换是指 USB 设备能够动态地切换它的 USB 角色,在主机(host)和外设(device)之间进行切换。
 CONFIG_USB_ROLE_SWITCH=y
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
-CONFIG_LEDS_GPIO=y
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=y
-CONFIG_LEDS_TRIGGER_ONESHOT=y
-CONFIG_LEDS_TRIGGER_HEARTBEAT=y
-CONFIG_LEDS_TRIGGER_BACKLIGHT=y
-CONFIG_LEDS_TRIGGER_CPU=y
-CONFIG_LEDS_TRIGGER_GPIO=y
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
-CONFIG_LEDS_TRIGGER_TRANSIENT=y
-CONFIG_LEDS_TRIGGER_CAMERA=y
-CONFIG_EDAC=y
-CONFIG_EDAC_SYNOPSYS=y
+#实时时钟(RTC)子系统相关的一个主开关配置选项。实时时钟子系统提供了对系统实时时钟的访问和管理功能。
 CONFIG_RTC_CLASS=y
 CONFIG_RTC_DRV_PCF8563=y
+# DMA (Direct Memory Access) 设备子系统相关的一个主开关配置选项
 CONFIG_DMADEVICES=y
+# 与 ARM PrimeCell PL330 DMA 控制器相关的一个配置选项。PL330 DMA 控制器是一种广泛使用的 DMA 硬件设备
 CONFIG_PL330_DMA=y
+# Linux 内核中与 Xilinx DMA 控制器相关的一个配置选项
 CONFIG_XILINX_DMA=y
+# Xilinx FPGA Frame Buffer 驱动程序相关的一个配置选项
 CONFIG_XILINX_FRMBUF=y
+# Linux 内核中与文件同步相关的一个配置选项。文件同步是确保文件数据在内存和磁盘之间保持一致性的一个重要机制。
 CONFIG_SYNC_FILE=y
+# 是 Linux 内核中与用户态 I/O 子系统 (UIO) 相关的一个配置选项。UIO 子系统提供了一种简单高效的方式,允许用户态程序直接访问硬件设备。
+# 您的应用程序需要直接访问硬件设备,而不需要内核驱动程序的中间层,则需要启用 CONFIG_UIO 选项。
 CONFIG_UIO=y
+# 是 Linux 内核中与用户态 I/O 子系统 (UIO) 的通用中断驱动器相关的一个配置选项。这个选项用于支持通用中断处理的 UIO 设备驱动程序。
 CONFIG_UIO_PDRV_GENIRQ=y
+# Linux 内核中与用户态 I/O 子系统 (UIO) 和 Xilinx 加速处理模块 (APM) 相关的一个配置选项。
 CONFIG_UIO_XILINX_APM=y
-CONFIG_COMMON_CLK_SI570=y
+# Linux 内核中与 Si570 可编程振荡器驱动程序相关的一个配置选项。
+#CONFIG_COMMON_CLK_SI570=y
+# Linux 内核中用于远程处理器框架的一个配置选项。远程处理器框架(RemoteProc)是 Linux 内核提供的一个子系统,用于管理和控制外部的远程处理器设备。
+# 对于使用多处理器架构的嵌入式系统,需要一种机制来管理和协调主处理器和从处理器之间的通信和资源共享。
 CONFIG_REMOTEPROC=y
+# Linux 内核中针对 Xilinx Zynq 系列 SoC 设备的远程处理器框架配置选项,当启用此配置选项时,Linux 内核会包含针对 Zynq 系列 SoC 的远程处理器框架实现。
+# 这个框架允许内核探测、加载、启动和监控 Zynq 中的 FPGA 远程处理器,并与之进行通信。
 CONFIG_ZYNQ_REMOTEPROC=m
+# Linux 内核中与内存管理相关的一组配置选项。这些选项控制内核对内存系统的支持和实现方式。
 CONFIG_MEMORY=y
+# Linux 内核中针对 Xilinx 嵌入式处理器系统的中断控制器驱动程序的配置选项。
 CONFIG_XILINX_INTC=y
+# Linux 内核中与可靠性、可用性和服务性(Reliability, Availability, and Serviceability，RAS)相关功能的一组配置选项。
+# CONFIG_RAS 是一个总开关,还有许多与 RAS 相关的细节配置选项,如:
+# CONFIG_EDAC: 内存 ECC 错误检测和纠正
+# CONFIG_EDAC_LEGACY_SYSFS: 遗留的 EDAC sysfs 接口
+# CONFIG_EDAC_DECODE_MCE: 解码 CPU 机器检查异常(MCE)
+# CONFIG_RAS_CEC: 支持 Continuous Availability(CA) 功能
+# CONFIG_RAS_PROCFS: 通过 procfs 接口提供 RAS 信息
 CONFIG_RAS=y
+CONFIG_EDAC=y # EDAC 子系统用于检测和纠正系统内存和总线中的错误
+CONFIG_EDAC_SYNOPSYS=y
+# Linux 内核中与可编程逻辑设备(FPGA)相关功能的配置选项集合
 CONFIG_FPGA=y
+# Linux 内核中针对 Xilinx Zynq FPGA 设备的配置选项
 CONFIG_FPGA_MGR_ZYNQ_FPGA=y
+# Linux 内核中针对 Xilinx Zynq FPGA 的 Adaptive Frequency Scaling (AFI) 功能的配置选项。
+# Adaptive Frequency Scaling (AFI) 是 Xilinx Zynq FPGA 的一个功能特性。AFI 可以动态调整 FPGA 逻辑部分的工作频率
 CONFIG_FPGA_MGR_ZYNQ_AFI_FPGA=y
+# inux 内核中针对 Xilinx 可部分重配置(Partial Reconfiguration)设备的配置选项,它允许在设备运行时仅重配置FPGA的部分区域
+# 依赖于更广泛的 CONFIG_FPGA 和 CONFIG_FPGA_MGR_XILINX_SPI 等
 CONFIG_XILINX_PR_DECOUPLER=y
+# Linux 内核中针对 FPGA 设备区域管理的配置选项,完成FPGA 设备区域的探测和标识，对区域进行管理和配置的通用框架
 CONFIG_FPGA_REGION=y
+# Linux 内核中与 FPGA 设备区域管理相关的一个配置选项,它专门针对设备树(Device Tree)的集成。
+# 对于 FPGA 设备,设备树可以用来描述其可编程区域的信息,如区域的位置、大小、功能等。
+# 当该选项被启用时,Linux 内核会支持从设备树中解析 FPGA 设备区域的信息,并将其集成到内核的 FPGA 区域管理框架中。
+# 从设备树中探测 FPGA 设备区域的定义
+# 将这些区域信息注册到内核的 FPGA 区域管理子系统
+# 为上层应用程序提供基于设备树的 FPGA 区域访问接口
 CONFIG_OF_FPGA_REGION=y
 CONFIG_EXT4_FS=y
 # CONFIG_DNOTIFY is not set
+# Linux 内核中针对 VFAT 文件系统的配置选项。VFAT (Variable Length File Allocation Table) 是 Windows 操作系统使用的一种文件系统格式。
+# 当该选项被启用时,Linux 内核会包含对 VFAT 文件系统的支持。
 CONFIG_VFAT_FS=y
+# Linux 内核中与临时文件系统(Tmpfs)相关的配置选项，这样 Linux 系统就能够挂载和使用 Tmpfs 作为临时存储空间,而不需要使用磁盘
+# CONFIG_TMPFS 为 Linux 内核提供了对临时文件系统 Tmpfs 的支持,使得 Linux 系统能够更好地利用内存资源,提高系统性能和响应能力。
 CONFIG_TMPFS=y
+# Linux 内核中针对 UBIFS (Unsorted Block Images File System) 文件系统的配置选项。
+# UBIFS 是一种专门为基于 NAND 闪存的嵌入式设备设计的日志型文件系统。这使得 Linux 系统能够挂载、读写和管理使用 UBIFS 格式的闪存设备。
 CONFIG_UBIFS_FS=y
 # CONFIG_NETWORK_FILESYSTEMS is not set
+# Linux 内核中与 NLS (Native Language Support) 相关的一个配置选项,它控制是否支持 MS-DOS 字符集 codepage 437
 CONFIG_NLS_CODEPAGE_437=y
+# Linux 内核中与 NLS (Native Language Support) 相关的一个配置选项,它控制是否支持 ASCII 字符集。
 CONFIG_NLS_ASCII=y
+#  Linux 内核中与 NLS (Native Language Support) 相关的一个配置选项,它控制是否支持 ISO-8859-1 字符集。
 CONFIG_NLS_ISO8859_1=y
+#  Linux 内核中与 DMA (Direct Memory Access) 和 CMA (Contiguous Memory Allocator) 相关的一个配置选项。
 CONFIG_DMA_CMA=y
 # CONFIG_SCHED_DEBUG is not set
 # CONFIG_DEBUG_PREEMPT is not set
+# Linux 内核中与 RCU (Read-Copy-Update) 子系统相关的一个配置选项,它控制了 CPU 停顿检测的超时时间。
+# RCU 是 Linux 内核中的一种轻量级的并发控制机制。
 CONFIG_RCU_CPU_STALL_TIMEOUT=60
 # CONFIG_FTRACE is not set
+CONFIG_PRINTK_TIME=y
