@@ -38,7 +38,7 @@ CONFIG_SF_DEFAULT_SPEED=50000000
 #CONFIG_CMDLINE_TAG=y
 # 启用 GPIO 设备模型 (Device Model) 的支持。
 #CONFIG_DM_GPIO=y
-# 启用调试 UART。
+# 启用调试 UART。WI
 CONFIG_DEBUG_UART=y
 # 表示使用 Zynq 平台的调试 UART。
 CONFIG_DEBUG_UART_ZYNQ=y
@@ -91,7 +91,7 @@ CONFIG_CMD_IMLS=y
 CONFIG_CMD_MEMTEST=y
 # 启用 DFU (Device Firmware Upgrade) 命令,支持通过 USB 进行固件升级。
 CONFIG_CMD_DFU=y
-# 启用 FPGA 位流加载 'bootparam' 命令。
+# 启用 FPGA 位流加载 'boWIotparam' 命令。
 CONFIG_CMD_FPGA_LOADBP=y
 # 启用 FPGA 位流加载 'full size' 命令。
 CONFIG_CMD_FPGA_LOADFS=y
@@ -173,8 +173,8 @@ CONFIG_DM_MTD=y
 #CONFIG_NAND_ZYNQ=y
 # 启用对 ONFI (Open NAND Flash Interface) 标准的检测。
 #CONFIG_SYS_NAND_ONFI_DETECTION=y
-# 启用 ST Micro 公司 SPI 闪存设备的支持。
-CONFIG_SPI_FLASH_STMICRO=y
+# 启用 WINBOND 公司 SPI 闪存设备的支持。
+CONFIG_SPI_FLASH_WINBOND=y
 # 启用 Realtek PHY 设备的支持。
 CONFIG_PHY_REALTEK=y
 # 启用 Xilinx PHY 设备的支持。

@@ -133,7 +133,7 @@ CONFIG_BLK_DEV_LOOP=y
 CONFIG_BLK_DEV_RAM=y
 # 是 Linux 内核中与块设备 RAM 的大小相关的一个配置选项。当这个选项被启用时,它可以设置 RAM 块设备的默认大小。
 # 块设备 RAM 是一种基于内存的块设备,也称为 RAM 磁盘或 RAM 盘。
-CONFIG_BLK_DEV_RAM_SIZE=16384
+CONFIG_BLK_DEV_RAM_SIZE=32768
 #  Linux 内核中与Xilinx FPGA设备上的流量生成器IP核相关的一个配置选项。当这个选项被启用时,内核会包含对Xilinx FPGA上的流量生成器IP核的支持。
 # 流量生成器IP核能够在FPGA上生成各种网络流量,用于测试和诊断网络设备和系统。
 CONFIG_XILINX_TRAFGEN=y
