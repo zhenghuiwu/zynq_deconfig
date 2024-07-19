@@ -3,6 +3,9 @@
  *  Copyright (C) 2011 - 2015 Xilinx
  *  Copyright (C) 2012 National Instruments Corp.
  */
+#define GPIO_ACTIVE_HIGH 0
+#define GPIO_ACTIVE_LOW 1
+
 /dts-v1/;
 #include "zynq-7000.dtsi"
 
@@ -13,6 +16,26 @@
 	aliases {
 		ethernet0 = &gem0;
 		serial0 = &uart0;
+		serial1 = &uart1;
+		i2c0 = &i2c0;
+		serial10 = &cam1_uartlite_3;
+		serial11 = &cam2_uartlite_0;
+		serial12 = &cam2_uartlite_1;
+		serial13 = &cam2_uartlite_2;
+		serial14 = &cam2_uartlite_3;
+		serial15 = &cam3_uartlite_0;
+		serial16 = &cam3_uartlite_1;
+		serial17 = &cam3_uartlite_2;
+		serial18 = &cam3_uartlite_3;
+		serial19 = &axi_uartlite_1;
+		serial2 = &axi_uartlite_0;
+		serial3 = &cam0_uartlite_0;
+		serial4 = &cam0_uartlite_1;
+		serial5 = &cam0_uartlite_2;
+		serial6 = &cam0_uartlite_3;
+		serial7 = &cam1_uartlite_0;
+		serial8 = &cam1_uartlite_1;
+		serial9 = &cam1_uartlite_2;
 		spi0 = &qspi;
 	};
 
@@ -33,60 +56,23 @@
 		view-port = <0x0170>;
 		drv-vbus;
 	};
-	
-};
 
-&clkc {
-	ps-clk-frequency = <33333333>;
-};
+	led {
+		compatible="mlk,led";
+		status="okay";
+		default-state="on";
 
-&gem0 {
-	status = "okay";
-	phy-mode = "rgmii-id";
-	phy-handle = <&ethernet_phy>;
-	local-mac-address = [00 0a 35 00 00 00];
-	ethernet_phy: ethernet-phy@1 {
-		reg = <1>;
-		device_type = "ethernet-phy";
+		led-gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 	};
 };
 
-&qspi {
-	u-boot,dm-pre-reloc;
-	status = "okay";
-	is-dual = <0>;
-	num-cs = <1>;
-	flash@0 {
-		compatible = "mt25ql256a";
-		reg = <0x0>;
-		spi-tx-bus-width = <4>;
-		spi-rx-bus-width = <4>;
-		spi-max-frequency = <50000000>;
-		#address-cells = <1>;
-		#size-cells = <1>;
-		partition@0 {
-			label = "qspi-fsbl-uboot";
-			reg = <0x0 0x100000>;
-		};
-		partition@100000 {
-			label = "qspi-linux";
-			reg = <0x100000 0x400000>;
-		};
-		partition@500000 {
-			label = "qspi-device-tree";
-			reg = <0x500000 0x20000>;
-		};
-		partition@520000 {
-			label = "qspi-rootfs";
-			reg = <0x520000 0x640000>;
-		};
-		partition@C60000 {
-			label = "qspi-bitstream";
-			reg = <0xC00000 0x400000>;
+/ {
+	cpus {
+		cpu@0 {
+			operating-points = <666666 1000000 333333 1000000>;
 		};
 	};
 };
-
 
 / {
 	amba_pl: amba_pl {
@@ -555,26 +541,93 @@
 	};
 };
 
+&clkc {
+	fclk-enable = <0x1>;
+	ps-clk-frequency = <33333333>;
+};
+
+&gem0 {
+	status = "okay";
+	phy-mode = "rgmii-id";
+	phy-handle = <&ethernet_phy>;
+	local-mac-address = [00 0a 35 00 00 00];
+	ethernet_phy: ethernet-phy@1 {
+		reg = <1>;
+		device_type = "ethernet-phy";
+	};
+};
+
+
+&qspi {
+	u-boot,dm-pre-reloc;
+	status = "okay";
+	is-dual = <0>;
+	num-cs = <1>;
+	flash@0 {
+		compatible = "mt25ql256a";
+		reg = <0x0>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+		spi-max-frequency = <125000000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		partition@0 {
+			label = "qspi-fsbl-uboot";
+			reg = <0x0 0x200000>;
+		};
+		partition@200000 {
+			label = "qspi-linux";
+			reg = <0x200000 0x620000>;/* 0x420000 */
+		};
+		partition@620000 {
+			label = "qspi-device-tree";
+			reg = <0x820000 0x20000>;/* 0x620000 */
+		};
+		/*
+		partition@640000 {
+			label = "qspi-rootfs";
+			reg = <0x640000 0x400000>;
+		};
+		*/
+	};
+};
+
+&gpio0 {
+	emio-gpio-width = <2>;
+	gpio-mask-high = <0x0>;
+	gpio-mask-low = <0x5600>;
+};
+
+&intc {
+	num_cpus = <2>;
+	num_interrupts = <96>;
+};
 
 &uart0 {
 	cts-override ;
 	device_type = "serial";
-	port-number = <0>;
+	port-number = <19>;
 	status = "okay";
-	u-boot,dm-pre-reloc;
 };
 
 &uart1 {
-	u-boot,dm-pre-reloc;
+	cts-override ;
+	device_type = "serial";
+	port-number = <20>;
+	status = "okay";
+};
+
+&i2c0 {
+	clock-frequency = <400000>;
 	status = "okay";
 };
 
 &usb0 {
-	status = "okay";
+ 	status = "okay";
 	phy_type = "ulpi";
-	dr_mode = "host";
-	usb-phy = <&usb_phy0>;
-};
+ 	dr_mode = "host";
+ 	usb-phy = <&usb_phy0>;
+ };
 
 &watchdog0 {
 	reset-on-timeout;
