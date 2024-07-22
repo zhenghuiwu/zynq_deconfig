@@ -60,4 +60,4 @@ echo "go_to_ouput_dir=$OUTOUT_DIR"
 $BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o BOOT.bin
 
 # target dir
-cp $OUTOUT_DIR * /home/wuzhenghui/ouput/zynq_ccu_7z030/
+cp -r $OUTOUT_DIR * /home/wuzhenghui/ouput/zynq_ccu_7z030/
