@@ -584,7 +584,7 @@
 		};
 		partition@520000 {
 			label = "qspi-rootfs";
-			reg = <0x520000 0x680000>;
+			reg = <0x520000 0x640000>;
 		};
 		partition@C00000 {
 			label = "qspi-bitstream";

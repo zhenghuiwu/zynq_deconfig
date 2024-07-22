@@ -45,4 +45,3 @@ cd $OUTOUT_DIR
 echo "go_to_ouput_dir=$OUTOUT_DIR"
 
 $BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o boot.bin
-
