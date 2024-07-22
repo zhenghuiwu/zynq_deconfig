@@ -79,7 +79,7 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 		compatible = "simple-bus";
-		ranges ;
+		ranges ;,a
 		axi_uartlite_0: serial@60010000 {
 			clock-names = "s_axi_aclk";
 			clocks = <&clkc 15>;
