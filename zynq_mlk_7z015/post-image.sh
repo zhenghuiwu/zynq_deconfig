@@ -9,6 +9,7 @@ FIRST_DT=$(sed -n \
            ${BR2_CONFIG})
 
 [ -z "${FIRST_DT}" ] || ln -fs ${FIRST_DT}.dtb ${BINARIES_DIR}/system.dtb
+
 # $0 表示当前正在执行的脚本的名称。$(dirname $0) 使用 dirname 命令获取 $0 的目录部分。
 BOARD_DIR="$(dirname $0)"
 
@@ -19,11 +20,18 @@ echo "board_dir=$BOARD_DIR"
 # zynq_mlk_7z015
 echo "decivetree=$FIRST_DT"
 
-FSBL_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
-URAMSIDK_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
-BIF_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
+FSBL_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
+URAMSIDK_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
+BIT_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
+BIF_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
 BOOTGEN_DIR="/home/wuzhenghui/bootgen"
 OUTOUT_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/output/images/"
+DT_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/output/build/linux-origin_main/arch/arm/boot/dts/"
+
+# 复制 devicetree 文件
+DT_FILE="zynq-mlk-7z015.dtb"
+cp $DT_DIR/$DT_FILE $OUTOUT_DIR
+echo "dt_dir=$DT_DIR"
 
 # 复制 FSBL.elf 文件
 FSBL_FILE="FSBL.elf"
@@ -35,6 +43,11 @@ URAMDISK_FILE="uramdisk.image.gz"
 cp $URAMSIDK_DIR/$URAMDISK_FILE $OUTOUT_DIR
 echo "uramdisk_dir=$URAMSIDK_DIR"
 
+# 复制 bitstream 文件
+BIT_FILE="system.bit"
+cp $BIT_DIR/$BIT_FILE $OUTOUT_DIR
+echo "bitstream_dir=$BIT_DIR"
+
 # 复制 system.bif 文件
 BIF_FILE="system.bif"
 cp $BIF_DIR/$BIF_FILE $OUTOUT_DIR
@@ -44,4 +57,7 @@ echo "bif_dir=$BIF_DIR"
 cd $OUTOUT_DIR
 echo "go_to_ouput_dir=$OUTOUT_DIR"
 
-$BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o boot.bin
+$BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o BOOT.bin
+
+# target dir
+cp -r $OUTOUT_DIR * /home/wuzhenghui/ouput/zynq_mlk_7z015/
