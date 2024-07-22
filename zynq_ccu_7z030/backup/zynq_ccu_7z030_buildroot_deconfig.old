@@ -525,10 +525,10 @@ BR2_TARGET_TZ_ZONELIST="default"
 BR2_TARGET_LOCALTIME="Etc/UTC"
 BR2_ROOTFS_USERS_TABLES=""
 BR2_ROOTFS_OVERLAY=""
-BR2_ROOTFS_PRE_BUILD_SCRIPT="board/zynq_deconfig/zynq_ccu_7z030/post-build.sh"
+BR2_ROOTFS_PRE_BUILD_SCRIPT="board/zynq_ccu_7z030/post-build.sh"
 BR2_ROOTFS_POST_BUILD_SCRIPT=""
 BR2_ROOTFS_POST_FAKEROOT_SCRIPT=""
-BR2_ROOTFS_POST_IMAGE_SCRIPT="board/zynq_deconfig/zynq_ccu_7z030/post-image.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="board/zynq_ccu_7z030/post-image.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS=""
 
 #
@@ -569,7 +569,7 @@ BR2_LINUX_KERNEL_UIMAGE_LOADADDR="0x2080000"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="zynq-ccu-7z030"
-BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="board/zynq_deconfig/zynq_ccu_7z030/linux_config/vivado_devicetree/zynq-ccu-7z030.dts"
+BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="board/zynq_deconfig/zynq_ccu_7z030/linux_config/zynq-ccu-7z030.dts"
 # BR2_LINUX_KERNEL_DTB_KEEP_DIRNAME is not set
 # BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT is not set
 # BR2_LINUX_KERNEL_INSTALL_TARGET is not set
@@ -607,7 +607,7 @@ BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 # Target packages
 #
 BR2_PACKAGE_BUSYBOX=y
-BR2_PACKAGE_BUSYBOX_CONFIG="board/zynq_deconfig/zynq_ccu_7z030/busybox_config/busybox.config"
+BR2_PACKAGE_BUSYBOX_CONFIG="board/zynq_ccu_7z030/busybox_config/busybox.config"
 BR2_PACKAGE_BUSYBOX_CONFIG_FRAGMENT_FILES=""
 # BR2_PACKAGE_BUSYBOX_SHOW_OTHERS is not set
 # BR2_PACKAGE_BUSYBOX_INDIVIDUAL_BINARIES is not set
@@ -2968,7 +2968,7 @@ BR2_TARGET_UBOOT_FORMAT_REMAKE_ELF=y
 # BR2_TARGET_UBOOT_FORMAT_CUSTOM is not set
 # BR2_TARGET_UBOOT_OMAP_IFT is not set
 # BR2_TARGET_UBOOT_SPL is not set
-BR2_TARGET_UBOOT_CUSTOM_DTS_PATH="board/zynq_deconfig/zynq_ccu_7z030/uboot_config/vivado_devicetree/zynq-ccu-7z030.dts"
+BR2_TARGET_UBOOT_CUSTOM_DTS_PATH="board/zynq_deconfig/zynq_ccu_7z030/uboot_config/zynq-ccu-7z030.dts"
 BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="DECVICE_TREE=zynq-ccu-7z030"
 
 #

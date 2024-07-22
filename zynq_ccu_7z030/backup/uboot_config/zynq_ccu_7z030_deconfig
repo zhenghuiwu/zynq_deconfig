@@ -1,107 +1,230 @@
+# 表示这个 U-Boot 是针对 ARM 架构的。
 CONFIG_ARM=y
+# 表示这个 U-Boot 是为 Zynq 平台设计的。
 CONFIG_ARCH_ZYNQ=y
+# 设置了这个 U-Boot 的配置名称为 "zynq_ccu_7z030"。
+CONFIG_SYS_CONFIG_NAME="zynq_ccu_7z030"
+# 设置 U-Boot 代码段的加载地址为 0x4000000。
 CONFIG_SYS_TEXT_BASE=0x4000000
+# 定义了内存测试的起始和结束地址范围。
 CONFIG_SYS_MEMTEST_START=0x00000000
 CONFIG_SYS_MEMTEST_END=0x00001000
-CONFIG_ENV_SIZE=0x10000
-CONFIG_ENV_OFFSET=0xfd000
-CONFIG_ENV_SECT_SIZE=0x10000
-#UART1
-CONFIG_DEBUG_UART_BASE=0xe0001000
-CONFIG_DEBUG_UART_CLOCK=50000000
-CONFIG_DEBUG_UART=y
-CONFIG_DEBUG_UART_ZYNQ=y
-#
-CONFIG_DM_GPIO=y
-CONFIG_DEFAULT_DEVICE_TREE="zynq-ccu-7z030"
-CONFIG_CMD_FRU=y
-CONFIG_CMD_ZYNQ_AES=y
-CONFIG_DISTRO_DEFAULTS=y
+# 设置 U-Boot 的提示符为 "Zynq> "
+CONFIG_SYS_PROMPT="Zynq> "
+# 表示使用自定义的链接脚本 "u-boot.lds"
 CONFIG_SYS_CUSTOM_LDSCRIPT=y
 CONFIG_SYS_LDSCRIPT="arch/arm/mach-zynq/u-boot.lds"
+# 设置可执行程序的加载地址为 0x0
 CONFIG_SYS_LOAD_ADDR=0x0
-CONFIG_FIT=y
-CONFIG_FIT_SIGNATURE=y
-CONFIG_FIT_VERBOSE=y
-CONFIG_LEGACY_IMAGE_FORMAT=y
-# CONFIG_ARCH_FIXUP_FDT_MEMORY is not set
-CONFIG_QSPI_BOOT=y
-CONFIG_USE_PREBOOT=y
-# CONFIG_BOOTM_NETBSD is not set
-# CONFIG_BOOTM_PLAN9 is not set
-# CONFIG_BOOTM_RTEMS is not set
-# CONFIG_BOOTM_VXWORKS is not set
-CONFIG_CMD_IMLS=y
-CONFIG_CMD_MEMTEST=y
+# 启用替代的内存测试方法。
 CONFIG_SYS_ALT_MEMTEST=y
+# 设置环境变量区域的大小为 63KB。
+CONFIG_ENV_SIZE=0xffff
+# 设置环境变量区域的偏移地址为 0xf0000/960KB
+CONFIG_ENV_OFFSET=0xf0000
+# 设置环境变量区域的扇区大小为 64KB。
+CONFIG_ENV_SECT_SIZE=0x10000
+# 表示环境变量存储在内存中,而不是存储在特定的存储介质上。
+CONFIG_ENV_IS_NOWHERE=y
+# 表示环境变量存储在 SPI Flash 中。
+CONFIG_ENV_IS_IN_SPI_FLASH=y
+# 设置默认的启动命令为 "run $modeboot"。
+CONFIG_BOOTCOMMAND="run $modeboot"
+# 表示使用旧版本的镜像格式。
+CONFIG_LEGACY_IMAGE_FORMAT=y
+# QSPI启动的默认速率是50M
+CONFIG_SF_DEFAULT_SPEED=50000000
+#CONFIG_SETUP_MEMORY_TAGS=y
+#CONFIG_CMDLINE_TAG=y
+# 启用 GPIO 设备模型 (Device Model) 的支持。
+#CONFIG_DM_GPIO=y
+# 启用调试 UART。
+CONFIG_DEBUG_UART=y
+# 表示使用 Zynq 平台的调试 UART。
+CONFIG_DEBUG_UART_ZYNQ=y
+# 设置调试 UART 的基地址为 0xe0001000。
+CONFIG_DEBUG_UART_BASE=0xe0001000
+# 设置调试 UART 的时钟频率为 50 MHz。
+CONFIG_DEBUG_UART_CLOCK=50000000
+# 启用 U-Boot 的 SPL (Second Program Loader) 功能。
+CONFIG_SPL=y
+# 设置 SPL 的运行栈地址为 0x200000。
+CONFIG_SPL_STACK_R_ADDR=0x200000
+# 启用 SPL 的动态栈功能。
+CONFIG_SPL_STACK_R=y
+# 支持从 SPL 启动操作系统。
+CONFIG_SPL_OS_BOOT=y
+# 支持从 SPI Flash 加载 SPL。
+CONFIG_SPL_SPI_LOAD=y
+# 在 SPL 中启用设备模型的别名功能。
+CONFIG_SPL_DM_SEQ_ALIAS=y
+# 启用 MMC 命令。
+#CONFIG_CMD_MMC=y
+# 启用 SPI Flash 命令。
+CONFIG_CMD_SF=y
+# 将设备树信息嵌入到 U-Boot 镜像中。
+CONFIG_OF_EMBED=y
+# 设置默认的设备树为 "zynq-ccu-7z030"。
+CONFIG_DEFAULT_DEVICE_TREE="zynq-ccu-7z030"
+# 启用 FRU (Field Replaceable Unit) 命令。
+#CONFIG_CMD_FRU=y
+# 启用 Zynq AES 命令。
+#CONFIG_CMD_ZYNQ_AES=y
+# 启用发行版默认配置。
+CONFIG_DISTRO_DEFAULTS=y
+# FIT 镜像格式是一种比传统单一的操作系统镜像更加灵活和强大的格式。
+# 它允许将内核、设备树、initramfs 等多个组件打包到一个单一的镜像中。这样可以简化系统引导过程,提高可靠性。
+#CONFIG_FIT=y # 启用 FIT (Flattened Image Tree) 镜像格式。
+#CONFIG_FIT_SIGNATURE=y # 启用 FIT 镜像签名功能。
+#CONFIG_FIT_VERBOSE=y # 启用 FIT 镜像信息输出。
+# CONFIG_ARCH_FIXUP_FDT_MEMORY is not set
+# 启用从 QSPI 闪存启动的支持。
+CONFIG_QSPI_BOOT=y
+# preboot 功能是 U-Boot 中的一个特性,它允许在正式启动内核之前,执行一些预处理的命令或脚本。这些预处理操作可以用于:
+# 执行一些系统初始化和配置任务,如设置环境变量、加载设备树等。实现特殊的引导流程,如从网络下载内核镜像、验证镜像签名等。
+# 提供一个用户交互界面,允许用户进行引导选择或配置。
+# 启用 preboot 功能,允许在 U-Boot 启动前执行自定义命令。
+CONFIG_USE_PREBOOT=y
+# 启用 IMLS (List Image Sectors) 命令,用于列出闪存中的镜像。
+CONFIG_CMD_IMLS=y
+# 启用内存测试命令。
+CONFIG_CMD_MEMTEST=y
+# 启用 DFU (Device Firmware Upgrade) 命令,支持通过 USB 进行固件升级。
 CONFIG_CMD_DFU=y
+# 启用 FPGA 位流加载 'bootparam' 命令。
 CONFIG_CMD_FPGA_LOADBP=y
+# 启用 FPGA 位流加载 'full size' 命令。
 CONFIG_CMD_FPGA_LOADFS=y
+# 启用 FPGA 位流加载 'makefile' 命令。
 CONFIG_CMD_FPGA_LOADMK=y
+# 启用 FPGA 位流加载 'partialsize' 命令。
 CONFIG_CMD_FPGA_LOADP=y
-CONFIG_CMD_GPIO=y
-CONFIG_CMD_I2C=y
+# 启用 GPIO 命令,用于操作 GPIO 引脚。
+#CONFIG_CMD_GPIO=y
+# 启用 I2C 命令,用于操作 I2C 设备。
+#CONFIG_CMD_I2C=y
+# 启用 MTD (Memory Technology Devices) 命令,用于操作 NAND/NOR 闪存设备。
 CONFIG_CMD_MTD=y
-CONFIG_CMD_NAND_LOCK_UNLOCK=y
+#CONFIG_CMD_NAND_LOCK_UNLOCK=y # 启用 NAND 闪存锁定/解锁命令。
+# 启用 SPI 闪存测试命令。
 CONFIG_CMD_SF_TEST=y
 # CONFIG_CMD_SETEXPR is not set
+# 启用通过 TFTP 上传文件的命令。
 CONFIG_CMD_TFTPPUT=y
+# 启用缓存管理命令。
 CONFIG_CMD_CACHE=y
+# 启用时间管理命令。
 CONFIG_CMD_TIME=y
+# 启用定时器管理命令
 CONFIG_CMD_TIMER=y
+# 启用对 ext4 文件系统的写入支持。
 CONFIG_CMD_EXT4_WRITE=y
+# 启用 MTD (Memory Technology Devices) 分区管理命令。
 CONFIG_CMD_MTDPARTS=y
+# 启用显示 MTD 分区大小时使用单位转换的功能
 CONFIG_CMD_MTDPARTS_SPREAD=y
+# 启用在显示 MTD 分区大小时使用人性化的网络单位。
 CONFIG_CMD_MTDPARTS_SHOW_NET_SIZES=y
-CONFIG_CMD_UBI=y
+#CONFIG_CMD_UBI=y
 # CONFIG_DOS_PARTITION is not set
 # CONFIG_ISO_PARTITION is not set
 # CONFIG_EFI_PARTITION is not set
-CONFIG_ENV_IS_NOWHERE=y
-CONFIG_ENV_IS_IN_SPI_FLASH=y
+# 启用 U-Boot 全局数据和环境变量的运行时重定位。这有助于提高性能和内存利用率。
 CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+# 自动为以太网设备生成一个随机的MAC地址。
 CONFIG_NET_RANDOM_ETHADDR=y
+# 启用通过网络的控制台支持,可以通过网络进行调试
 CONFIG_NETCONSOLE=y
 # CONFIG_BLOCK_CACHE is not set
+# 启用 DFU (Device Firmware Upgrade) 模式的超时功能。
 CONFIG_DFU_TIMEOUT=y
-CONFIG_DFU_MMC=y
+# 启用 DFU 对 MMC (MultiMedia Card) 设备的支持。
+#CONFIG_DFU_MMC=y
+# 启用 DFU 对 RAM 设备的支持。
 CONFIG_DFU_RAM=y
+# 启用 DFU 对 SPI 闪存设备的支持。
 CONFIG_DFU_SF=y
+# 配置 DFU 数据缓冲区大小为 6MB
 CONFIG_SYS_DFU_DATA_BUF_SIZE=0x600000
+# 启用对 Xilinx FPGA 的支持。
 CONFIG_FPGA_XILINX=y
+# 启用对 Zynq FPGA 的支持。
 CONFIG_FPGA_ZYNQPL=y
-CONFIG_DM_I2C=y
-CONFIG_LED=y
-CONFIG_LED_GPIO=y
+# 启用 I2C 总线的设备模型支持。
+#CONFIG_DM_I2C=y
+# 启用LED驱动框架。
+#CONFIG_LED=y
+#CONFIG_LED_GPIO=y
+# 启用 MTD (Memory Technology Devices) 子系统。
 CONFIG_MTD=y
+# 启用 NOR 型闪存支持。
 CONFIG_MTD_NOR_FLASH=y
+# 启用 CFI (Common Flash Interface) 闪存驱动。
 CONFIG_CFI_FLASH=y
+# 启用缓冲写模式以提高闪存写入性能。
 CONFIG_SYS_FLASH_USE_BUFFER_WRITE=y
+# 启用 CFI 兼容的闪存检查。
 CONFIG_SYS_FLASH_CFI=y
-CONFIG_MTD_RAW_NAND=y
-CONFIG_NAND_ZYNQ=y
-CONFIG_SYS_NAND_ONFI_DETECTION=y
-CONFIG_SF_DEFAULT_SPEED=30000000
-CONFIG_SPI_FLASH_ISSI=y
-CONFIG_SPI_FLASH_MACRONIX=y
-CONFIG_SPI_FLASH_SPANSION=y
+# 没有这个报错误flash_info_t
+CONFIG_DM_MTD=y
+# 启用 NAND 型闪存支持
+#CONFIG_MTD_RAW_NAND=y
+# 启用对 Zynq NAND 控制器的支持。
+#CONFIG_NAND_ZYNQ=y
+# 启用对 ONFI (Open NAND Flash Interface) 标准的检测。
+#CONFIG_SYS_NAND_ONFI_DETECTION=y
+# 启用 ST Micro 公司 SPI 闪存设备的支持。
 CONFIG_SPI_FLASH_STMICRO=y
-CONFIG_SPI_FLASH_SST=y
-CONFIG_SPI_FLASH_WINBOND=y
-CONFIG_PHY_MARVELL=y
-CONFIG_PHY_MICREL=y
-CONFIG_PHY_MICREL_KSZ90X1=y
+# 启用 Realtek PHY 设备的支持。
 CONFIG_PHY_REALTEK=y
-CONFIG_PHY_XILINX=y
+# 启用 Xilinx PHY 设备的支持。
+#CONFIG_PHY_XILINX=y
+# 启用以太网 PHY 设备模型支持。
 CONFIG_DM_ETH_PHY=y
+# 启用 MII (Media Independent Interface) 总线支持。
 CONFIG_MII=y
+# 启用 Zynq 平台上的 GEM (Gigabit Ethernet MAC) 控制器（PS的MAC）支持。
+# Xilinx Ethernetlite:是一款轻量级的以太网控制器核心,位于Xilinx SoC的可编程逻辑(PL)部分。
+# CONFIG_XILINX_AXIEMAC: 这个选项启用了对 Xilinx Ethernetlite 控制器的支持。
 CONFIG_ZYNQ_GEM=y
-CONFIG_ARM_DCC=y
+# 启用 ARM DCC (Debug Communication Channel) 调试通道支持。
+#CONFIG_ARM_DCC=y
+# 启用对 Zynq 串口的支持。
 CONFIG_ZYNQ_SERIAL=y
+# 启用对 Zynq SPI 控制器的支持。
 CONFIG_ZYNQ_SPI=y
+# 启用对 Zynq QSPI 控制器的支持。
 CONFIG_ZYNQ_QSPI=y
-CONFIG_DISPLAY=y
+#CONFIG_DISPLAY=y # 启用显示设备驱动框架支持。
 # CONFIG_FAT_WRITE is not set
-CONFIG_SPL_GZIP=y
-CONFIG_SPL_OF_LIBFDT=y
 # CONFIG_EFI_LOADER is not set
+
+################################################################### USB ###########################################################################
+# 启用USB子系统支持。这是必须的基础选项。
+#CONFIG_USB=y
+# 启用 ULPI (UTMI+ Low Pin Interface) 类型的 USB PHY 支持。ULPI是一种常见的USB PHY接口标准。
+#CONFIG_USB_ULPI=y
+# 启用 ULPI 总线支持。这允许 U-Boot 与 ULPI 类型的 USB PHY 芯片进行通信。
+#CONFIG_USB_ULPI_BUS=y
+# 启用 EHCI (Enhanced Host Controller Interface) USB主机控制器驱动支持。EHCI是一种高性能的USB主机控制器标准。
+#CONFIG_USB_EHCI_HCD=y
+# 启用 EHCI 根集线器的事务翻译器(TT)支持。这可以提高USB设备的兼容性。
+#CONFIG_USB_EHCI_ROOT_HUB_TT=y
+# 用 U-Boot 的 USB 命令支持,允许用户通过命令行操作 USB 设备。
+#CONFIG_CMD_USB=y
+# 启用 ULPI 视口访问支持。这提供了一种通用的机制来访问 ULPI 类型的 USB PHY 寄存器。
+#CONFIG_USB_ULPI_VIEWPORT=y
+##CONFIG_USB_GADGET=y
+##CONFIG_USB_GADGET_MANUFACTURER="Xilinx"
+##CONFIG_USB_GADGET_VENDOR_NUM=0x03fd
+##CONFIG_USB_GADGET_PRODUCT_NUM=0x0300
+##CONFIG_USB_GADGET_DOWNLOAD=y
+##CONFIG_USB_FUNCTION_THOR=y
+# 这个选项启用了一个通用的 USB PHY (Physical Layer) 驱动程序,称为 NOP (No-Operation) USB XCEIV。这个驱动程序可以与多种不同类型的 USB PHY 芯片兼容,提供了一种通用的接口。
+#CONFIG_NOP_USB_XCEIV=y
+# 这个选项启用了 USB 角色切换功能支持。USB 角色切换允许一个 USB 端口能够动态地在 USB 主机和 USB 设备之间切换。
+#CONFIG_USB_ROLE_SWITCH=y
+################################################################### USB ###########################################################################
+
+
+
