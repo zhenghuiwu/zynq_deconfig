@@ -26,7 +26,7 @@ BOOTGEN_DIR="/home/wuzhenghui/bootgen"
 OUTOUT_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/output/images/"
 
 # 复制 FSBL.elf 文件
-FSBL_FILE="fsbl.elf"
+FSBL_FILE="FSBL.elf"
 cp $FSBL_DIR/$FSBL_FILE $OUTOUT_DIR
 echo "fsbl_dir=$FSBL_DIR"
 

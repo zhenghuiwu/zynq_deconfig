@@ -19,14 +19,14 @@ echo "board_dir=$BOARD_DIR"
 # zynq_mlk_7z030
 echo "decivetree=$FIRST_DT"
 
-FSBL_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
-URAMSIDK_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
-BIF_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/"
+FSBL_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
+URAMSIDK_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
+BIF_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/$BOARD_DIR/boot/"
 BOOTGEN_DIR="/home/wuzhenghui/bootgen"
 OUTOUT_DIR="/home/wuzhenghui/buildroot/buildroot-2024.02.2/output/images/"
 
-# 复制 fsbl.elf 文件
-FSBL_FILE="fsbl.elf"
+# 复制 FSBL.elf 文件
+FSBL_FILE="FSBL.elf"
 cp $FSBL_DIR/$FSBL_FILE $OUTOUT_DIR
 echo "fsbl_dir=$FSBL_DIR"
 
