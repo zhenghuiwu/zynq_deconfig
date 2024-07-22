@@ -198,7 +198,6 @@ CONFIG_ZYNQ_QSPI=y
 #CONFIG_DISPLAY=y # 启用显示设备驱动框架支持。
 # CONFIG_FAT_WRITE is not set
 # CONFIG_EFI_LOADER is not set
-
 ################################################################### USB ###########################################################################
 # 启用USB子系统支持。这是必须的基础选项。
 #CONFIG_USB=y

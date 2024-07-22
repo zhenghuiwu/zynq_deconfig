@@ -1,10 +1,10 @@
 //arch = zynq; split = false; format = BIN
 the_ROM_image:
 {
-	[bootloader]C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\FSBL.elf
-	C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\u-boot.elf
-	[offset = 0x100000]C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\uImage
-	[offset = 0x500000]C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\zynq-ccu-7z030.dtb
-	[offset = 0x520000]C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\uramdisk.image.gz
-	[offset = 0xC00000]C:\Users\Administrator\Desktop\ccu-core-pl-main\boot\ccu_core_pl_7z030_top.bit
+	[bootloader]./FSBL.elf
+	./u-boot.elf
+	[offset = 0x100000]./uImage
+	[offset = 0x500000]./zynq-ccu-7z030.dtb
+	[offset = 0x520000]./uramdisk.image.gz
+	[offset = 0xC00000]./system.bit
 }
