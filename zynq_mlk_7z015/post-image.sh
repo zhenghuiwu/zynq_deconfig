@@ -40,8 +40,9 @@ BIF_FILE="system.bif"
 cp $BIF_DIR/$BIF_FILE $OUTOUT_DIR
 echo "bif_dir=$BIF_DIR"
 
+#
 cd $OUTOUT_DIR
 echo "go_to_ouput_dir=$OUTOUT_DIR"
 
-/home/wuzhenghui/bootgen/bootgen -arch zynq -image system.bif -w on -o boot.bin
+$BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o boot.bin
 
