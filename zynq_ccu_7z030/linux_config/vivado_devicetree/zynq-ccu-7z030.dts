@@ -80,6 +80,14 @@
 		#size-cells = <1>;
 		compatible = "simple-bus";
 		ranges ;
+		axi_amm_slave_0:axi_amm_slave@0x40000000{
+			clock-names = "s_axi_aclk";
+			clocks = <&clkc 15>;
+			compatible = "jskj,avalon-amm-slave-1.00a";
+			reg = <0x40000000 0x400000>;
+			xlnx,s00-axi-addr-width = <0x20>;
+			xlnx,s00-axi-data-width = <0x20>;
+		};
 		axi_uartlite_0: serial@60010000 {
 			clock-names = "s_axi_aclk";
 			clocks = <&clkc 15>;
