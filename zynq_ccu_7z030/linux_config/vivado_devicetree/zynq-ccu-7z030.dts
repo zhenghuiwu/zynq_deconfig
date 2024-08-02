@@ -3,8 +3,8 @@
  *  Copyright (C) 2011 - 2015 Xilinx
  *  Copyright (C) 2012 National Instruments Corp.
  */
-#define GPIO_ACTIVE_HIGH 0
-#define GPIO_ACTIVE_LOW 1
+#define GPIO_ACTIVE_HIGH 1
+#define GPIO_ACTIVE_LOW 0
 
 /dts-v1/;
 #include "zynq-7000.dtsi"
@@ -57,12 +57,15 @@
 		drv-vbus;
 	};
 
-	led {
-		compatible="mlk,led";
+	gpio_crtl {
+		compatible="jskj,rs485-dir-crtl";
 		status="okay";
-		default-state="on";
-
-		led-gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+		default-state="rx";
+		rs485-dir-gpio  = <&gpio0 46 GPIO_ACTIVE_LOW>; //GPIO_ACTIVE_LOW : tx 
+		//rtc-intn-gpio   = <&gpio0 41 GPIO_ACTIVE_LOW>;
+		//pca-intn-gpio   = <&gpio0 49 GPIO_ACTIVE_LOW>;
+		//rtl-intb-gpio   = <&gpio0 48 GPIO_ACTIVE_LOW>;
+		//qspi-reset-gpio = <&gpio0 15 GPIO_ACTIVE_LOW>; //LOW: no reset
 	};
 };
 
@@ -627,8 +630,20 @@
 };
 
 &i2c0 {
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	rtc@51 {
+		compatible = "zynq-pcf8563";
+		reg = <0x51>;
+	};
+
+	pca9534@51 {
+		compatible = "nxp,pca9534";
+		reg = <0x0>;
+	};
+
 };
 
 &usb0 {
