@@ -7,8 +7,8 @@ CONFIG_SYS_CONFIG_NAME="zynq_ccu_7z030"
 # 设置 U-Boot 代码段的加载地址为 0x4000000。
 CONFIG_SYS_TEXT_BASE=0x4000000
 # 定义了内存测试的起始和结束地址范围。
-CONFIG_SYS_MEMTEST_START=0x00000000
-CONFIG_SYS_MEMTEST_END=0x00001000
+#CONFIG_SYS_MEMTEST_START=0x00000000
+#CONFIG_SYS_MEMTEST_END=0x00001000
 # 设置 U-Boot 的提示符为 "Zynq> "
 CONFIG_SYS_PROMPT="Zynq> "
 # 表示使用自定义的链接脚本 "u-boot.lds"
@@ -18,14 +18,14 @@ CONFIG_SYS_LDSCRIPT="arch/arm/mach-zynq/u-boot.lds"
 CONFIG_SYS_LOAD_ADDR=0x0
 # 启用替代的内存测试方法。
 CONFIG_SYS_ALT_MEMTEST=y
-# 设置环境变量区域的大小为 63KB。
-CONFIG_ENV_SIZE=0xffff
-# 设置环境变量区域的偏移地址为 0xf0000/960KB
-CONFIG_ENV_OFFSET=0xf0000
+# 设置环境变量区域的大小为 64KB。
+CONFIG_ENV_SIZE=0x10000
+# 设置环境变量区域的偏移地址为 0xfa000/1000KB
+CONFIG_ENV_OFFSET=0x100000
 # 设置环境变量区域的扇区大小为 64KB。
 CONFIG_ENV_SECT_SIZE=0x10000
-# 表示环境变量存储在内存中,而不是存储在特定的存储介质上。
-CONFIG_ENV_IS_NOWHERE=y
+# 表示环境变量存储在UBOOT镜像中,而不是存储在特定的存储介质上。
+#CONFIG_ENV_IS_NOWHERE=y
 # 表示环境变量存储在 SPI Flash 中。
 CONFIG_ENV_IS_IN_SPI_FLASH=y
 # 设置默认的启动命令为 "run $modeboot"。
@@ -88,9 +88,9 @@ CONFIG_USE_PREBOOT=y
 # 启用 IMLS (List Image Sectors) 命令,用于列出闪存中的镜像。
 CONFIG_CMD_IMLS=y
 # 启用内存测试命令。
-CONFIG_CMD_MEMTEST=y
+#CONFIG_CMD_MEMTEST=y
 # 启用 DFU (Device Firmware Upgrade) 命令,支持通过 USB 进行固件升级。
-CONFIG_CMD_DFU=y
+#CONFIG_CMD_DFU=y
 # 启用 FPGA 位流加载 'bootparam' 命令。
 CONFIG_CMD_FPGA_LOADBP=y
 # 启用 FPGA 位流加载 'full size' 命令。
@@ -157,6 +157,9 @@ CONFIG_FPGA_ZYNQPL=y
 #CONFIG_LED_GPIO=y
 # 启用 MTD (Memory Technology Devices) 子系统。
 CONFIG_MTD=y
+CONFIG_SPI_FLASH=y
+CONFIG_SPI_FLASH_MTD=y
+CONDIF_DM_SPI_FLASH=y
 # 启用 NOR 型闪存支持。
 CONFIG_MTD_NOR_FLASH=y
 # 启用 CFI (Common Flash Interface) 闪存驱动。
@@ -168,11 +171,11 @@ CONFIG_SYS_FLASH_CFI=y
 # 没有这个报错误flash_info_t
 CONFIG_DM_MTD=y
 # 启用 NAND 型闪存支持
-#CONFIG_MTD_RAW_NAND=y
+CONFIG_MTD_RAW_NAND=y
 # 启用对 Zynq NAND 控制器的支持。
-#CONFIG_NAND_ZYNQ=y
+CONFIG_NAND_ZYNQ=y
 # 启用对 ONFI (Open NAND Flash Interface) 标准的检测。
-#CONFIG_SYS_NAND_ONFI_DETECTION=y
+CONFIG_SYS_NAND_ONFI_DETECTION=y
 # 启用 ST Micro 公司 SPI 闪存设备的支持。
 CONFIG_SPI_FLASH_STMICRO=y
 # 启用 Realtek PHY 设备的支持。
@@ -195,6 +198,8 @@ CONFIG_ZYNQ_SERIAL=y
 CONFIG_ZYNQ_SPI=y
 # 启用对 Zynq QSPI 控制器的支持。
 CONFIG_ZYNQ_QSPI=y
+#支持4 Byte地址模式
+CONFIG_SPI_FLASH_BAR=y
 #CONFIG_DISPLAY=y # 启用显示设备驱动框架支持。
 # CONFIG_FAT_WRITE is not set
 # CONFIG_EFI_LOADER is not set

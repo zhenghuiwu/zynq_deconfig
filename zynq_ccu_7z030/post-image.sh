@@ -53,11 +53,16 @@ BIF_FILE="system.bif"
 cp $BIF_DIR/$BIF_FILE $OUTOUT_DIR
 echo "bif_dir=$BIF_DIR"
 
+# 复制 Full_Bitstream.bif 文件
+BIF_FILE="Full_Bitstream.bif"
+cp $BIF_DIR/$BIF_FILE $OUTOUT_DIR
+echo "Full_Bitstream_bif_dir=$BIF_DIR"
+
 #
 cd $OUTOUT_DIR
 echo "go_to_ouput_dir=$OUTOUT_DIR"
 
 $BOOTGEN_DIR/bootgen -arch zynq -image system.bif -w on -o BOOT.bin -log trace
-
+$BOOTGEN_DIR/bootgen -arch zynq -image Full_Bitstream.bif -w on -process_bitstream bin -log trace
 # target dir
 cp -r $OUTOUT_DIR * /home/wuzhenghui/ouput/zynq_ccu_7z030/

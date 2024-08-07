@@ -105,7 +105,6 @@ CONFIG_UEVENT_HELPER=y # 启用 uevent 助手,用于处理设备事件。
 CONFIG_DEVTMPFS=y # 启用开机时自动挂载 devtmpfs 文件系统的功能。
 CONFIG_DEVTMPFS_MOUNT=y # 确保在rootfs挂载之前devtmpfs就已经挂载好。
 CONFIG_CONNECTOR=y #  启用 Connector 子系统,用于进程间通信。
-
 CONFIG_MTD=y # 启用 MTD (Memory Technology Devices) 子系统的核心功能。
 CONFIG_MTD_CMDLINE_PARTS=y # 允许通过内核命令行来定义 MTD 分区
 CONFIG_MTD_BLOCK=y # 启用 MTD 块设备接口,使 MTD 设备可以作为标准块设备使用。
@@ -113,11 +112,9 @@ CONFIG_MTD_CFI=y # 启用通用闪存接口 (Common Flash Interface, CFI) 对闪
 CONFIG_MTD_CFI_AMDSTD=y # 启用对 AMD/Fujitsu 兼容闪存芯片的支持。
 CONFIG_MTD_PHYSMAP=y # 启用物理映射 MTD 驱动程序,可将物理内存地址映射到 MTD 设备。
 CONFIG_MTD_PHYSMAP_OF=y #启用设备树支持的物理映射 MTD 驱动程序。
-#CONFIG_MTD_RAW_NAND=y # 启用原始 NAND 闪存设备的支持。
-#CONFIG_MTD_NAND_PL35X=y # 启用Pixelworks PL35X NAND 闪存控制器的支持。
+CONFIG_MTD_RAW_NAND=y # 启用原始 NAND 闪存设备的支持。
+CONFIG_MTD_NAND_PL35X=y # 启用Pixelworks PL35X NAND 闪存控制器的支持。
 CONFIG_MTD_SPI_NOR=y # 启用 SPI NOR 闪存设备的支持。
-
-CONFIG_MTD_UBI=y
 # linux 内核中与设备树叠加(Device Tree Overlays)相关的一个配置选项。当这个选项被启用时,内核会支持在运行时动态修改设备树的能力。
 CONFIG_OF_OVERLAY=y
 #  Linux 内核中与通过 ConfigFS 接口操作设备树相关的一个配置选项。当这个选项被启用时,内核会支持通过 ConfigFS 接口动态地创建、修改和删除设备树节点。
@@ -304,6 +301,9 @@ CONFIG_RCU_CPU_STALL_TIMEOUT=60
 CONFIG_PRINTK_TIME=y
 #####UARTLITE##############
 #UARTLITE最大支持的数量
+#CONFIG_I2C_CHARDEV = y
+#CONFIG_SND_SOC_ES8328 = y
+#CONFIG_SND_SOC_ES8328_I2C = y
 CONFIG_GPIO_PCA953X =y
 CONFIG_SERIAL_UARTLITE_NR_UARTS=24
 CONFIG_SERIAL_UARTLITE=y
