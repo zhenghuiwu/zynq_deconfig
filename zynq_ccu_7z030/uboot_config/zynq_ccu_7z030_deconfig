@@ -20,8 +20,8 @@ CONFIG_SYS_LOAD_ADDR=0x0
 CONFIG_SYS_ALT_MEMTEST=y
 # 设置环境变量区域的大小为 64KB。
 CONFIG_ENV_SIZE=0x10000
-# 设置环境变量区域的偏移地址为 0xfa000/1000KB
-CONFIG_ENV_OFFSET=0x100000
+# 设置环境变量区域的偏移地址为 0x1E0000
+CONFIG_ENV_OFFSET=0x1E0000
 # 设置环境变量区域的扇区大小为 64KB。
 CONFIG_ENV_SECT_SIZE=0x10000
 # 表示环境变量存储在UBOOT镜像中,而不是存储在特定的存储介质上。
@@ -152,24 +152,27 @@ CONFIG_FPGA_XILINX=y
 CONFIG_FPGA_ZYNQPL=y
 # 启用 I2C 总线的设备模型支持。
 #CONFIG_DM_I2C=y
-# 启用LED驱动框架。
-#CONFIG_LED=y
-#CONFIG_LED_GPIO=y
 # 启用 MTD (Memory Technology Devices) 子系统。
 CONFIG_MTD=y
 CONFIG_SPI_FLASH=y
 CONFIG_SPI_FLASH_MTD=y
-CONDIF_DM_SPI_FLASH=y
-# 启用 NOR 型闪存支持。
-CONFIG_MTD_NOR_FLASH=y
-# 启用 CFI (Common Flash Interface) 闪存驱动。
+CONFIG_DM=y
+# "Use small 4096 B erase sectors"
+CONFIG_SPI_FLASH_USE_4K_SECTORS=y
+#"Enable Driver Model for SPI flash"  depends on DM && DM_SPI
+CONFIG_DM_SPI_FLASH=y
+# Enable support for parallel NOR flash.
+#CONFIG_MTD_NOR_FLASH=y
+# Enable CFI Flash driver , depends on DM_MTD
+CONFIG_DM_MTD=y
 CONFIG_CFI_FLASH=y
-# 启用缓冲写模式以提高闪存写入性能。
+#Enable CFI MTD driver
+CONFIG_FLASH_CFI_MTD=y
+# "Enable buffered writes to flash" depends on FLASH_CFI_DRIVER
+CONFIG_FLASH_CFI_DRIVER=y
 CONFIG_SYS_FLASH_USE_BUFFER_WRITE=y
 # 启用 CFI 兼容的闪存检查。
 CONFIG_SYS_FLASH_CFI=y
-# 没有这个报错误flash_info_t
-CONFIG_DM_MTD=y
 # 启用 NAND 型闪存支持
 CONFIG_MTD_RAW_NAND=y
 # 启用对 Zynq NAND 控制器的支持。
@@ -194,41 +197,10 @@ CONFIG_ZYNQ_GEM=y
 #CONFIG_ARM_DCC=y
 # 启用对 Zynq 串口的支持。
 CONFIG_ZYNQ_SERIAL=y
-# 启用对 Zynq SPI 控制器的支持。
-CONFIG_ZYNQ_SPI=y
-# 启用对 Zynq QSPI 控制器的支持。
 CONFIG_ZYNQ_QSPI=y
 #支持4 Byte地址模式
 CONFIG_SPI_FLASH_BAR=y
-#CONFIG_DISPLAY=y # 启用显示设备驱动框架支持。
-# CONFIG_FAT_WRITE is not set
-# CONFIG_EFI_LOADER is not set
-################################################################### USB ###########################################################################
-# 启用USB子系统支持。这是必须的基础选项。
-#CONFIG_USB=y
-# 启用 ULPI (UTMI+ Low Pin Interface) 类型的 USB PHY 支持。ULPI是一种常见的USB PHY接口标准。
-#CONFIG_USB_ULPI=y
-# 启用 ULPI 总线支持。这允许 U-Boot 与 ULPI 类型的 USB PHY 芯片进行通信。
-#CONFIG_USB_ULPI_BUS=y
-# 启用 EHCI (Enhanced Host Controller Interface) USB主机控制器驱动支持。EHCI是一种高性能的USB主机控制器标准。
-#CONFIG_USB_EHCI_HCD=y
-# 启用 EHCI 根集线器的事务翻译器(TT)支持。这可以提高USB设备的兼容性。
-#CONFIG_USB_EHCI_ROOT_HUB_TT=y
-# 用 U-Boot 的 USB 命令支持,允许用户通过命令行操作 USB 设备。
-#CONFIG_CMD_USB=y
-# 启用 ULPI 视口访问支持。这提供了一种通用的机制来访问 ULPI 类型的 USB PHY 寄存器。
-#CONFIG_USB_ULPI_VIEWPORT=y
-##CONFIG_USB_GADGET=y
-##CONFIG_USB_GADGET_MANUFACTURER="Xilinx"
-##CONFIG_USB_GADGET_VENDOR_NUM=0x03fd
-##CONFIG_USB_GADGET_PRODUCT_NUM=0x0300
-##CONFIG_USB_GADGET_DOWNLOAD=y
-##CONFIG_USB_FUNCTION_THOR=y
-# 这个选项启用了一个通用的 USB PHY (Physical Layer) 驱动程序,称为 NOP (No-Operation) USB XCEIV。这个驱动程序可以与多种不同类型的 USB PHY 芯片兼容,提供了一种通用的接口。
-#CONFIG_NOP_USB_XCEIV=y
-# 这个选项启用了 USB 角色切换功能支持。USB 角色切换允许一个 USB 端口能够动态地在 USB 主机和 USB 设备之间切换。
-#CONFIG_USB_ROLE_SWITCH=y
-################################################################### USB ###########################################################################
-
-
-
+#上电自检测
+#CONFIG_POST=y
+#从设备树中获取环境变量？
+#CONFIG_OF_CONTROL

@@ -59,8 +59,9 @@
 	num-cs = <1>;
 	flash@0 {
 		//compatible = "micron,n25q256a", "jedec,spi-nor";
-		//set mtdids nor1=nor1
-		//set mtdparts mtdparts=nor1:1m@0(qspi-fsbl-uboot),1m@1m(qspi-env),1m@2m(qspi-linux-a),1m@3m(qspi-linux-b),1m@4m(arm_app),1m@5m(dsp_ubl),1m@6m(dsp_app),3m@7m(rootfs)
+		//set mtdids nor0=nor1
+		//set mtdparts mtdparts=nor:1m@0(qspi-fsbl-uboot),64k@1m(qspi-env),1m@2m(qspi-linux-a),1m@3m(qspi-linux-b),1m@4m(arm_app),1m@5m(dsp_ubl),1m@6m(dsp_app),3m@7m(rootfs)
+		//set mtdparts mtdparts=nor1:0x100000@0(qspi-fsbl-uboot),0x10000@0x100000(qspi-env),0x400000@0x110000(qspi-linux-a),0x10000@0x510000(qspi-devicetree-a),0x400000@0x520000(qspi-linux-b),0x10000@0x920000(qspi-devicetree-b),0x400000@0x930000(qspi-bitstream-a),0x400000@0xd30000(qspi-bitstream-b),0x640000@0x1130000(qspi-rootfs-a),0x640000@0x1770000(qspi-rootfs-b)
 		compatible = "micron,n25q256a";
 		reg = <0x0>;
 		spi-tx-bus-width = <4>;
@@ -70,43 +71,47 @@
 		#size-cells = <1>;
 		partition@0 {
 			label = "qspi-fsbl-uboot";
-			reg = <0x0 0x100000>;
+			reg = <0x0 0x1D0000>;
 		};
-		partition@100000 {
+		partition@1D0000 {
+			label = "qspi-flag";
+			reg = <0x1D0000 0x10000>;//64KB
+		};
+		partition@1E0000 {
 			label = "qspi-env";
-			reg = <0x100000 0x10000>;//64KB
+			reg = <0x1E0000 0x10000>;//64KB
 		};
-		partition@110000 {
+		partition@200000 {
 			label = "qspi-linux-a";
-			reg = <0x110000 0x400000>;
+			reg = <0x200000 0x400000>;
 		};
-		partition@510000 {
+		partition@600000 {
 			label = "qspi-devicetree-a";
-			reg = <0x510000 0x10000>;
+			reg = <0x600000 0x10000>;
 		};
-		partition@520000 {
+		partition@610000 {
 			label = "qspi-linux-b";
-			reg = <0x520000 0x400000>;
+			reg = <0x610000 0x400000>;
 		};
-		partition@920000 {
+		partition@A10000 {
 			label = "qspi-devicetree-b";
-			reg = <0x920000 0x10000>;
+			reg = <0xA10000 0x10000>;
 		};
-		partition@930000 {
+		partition@A20000 {
 			label = "qspi-bitstream-a";
-			reg = <0x930000 0x400000>;
+			reg = <0xA20000 0x400000>;
 		};
-		partition@D30000 {
+		partition@E20000 {
 			label = "qspi-bitstream-b";
-			reg = <0xD30000 0x400000>;
+			reg = <0xE20000 0x400000>;
 		};
-		partition@1130000 {
+		partition@1220000 {
 			label = "qspi-rootfs-a";
-			reg = <0x1130000 0x640000>;
+			reg = <0x1220000 0x640000>;
 		};
-		partition@1770000 {
+		partition@1860000 {
 			label = "qspi-rootfs-b";
-			reg = <0x1770000 0x640000>;
+			reg = <0x1860000 0x640000>;
 		};
 	};
 };
