@@ -72,25 +72,25 @@
 	"scanusb=setenv devtype usb && setenv devnum 0 && usb reset && usb start && usb storage && run scandev; \0" \
 	"scanmmc=setenv devtype mmc; setenv devnum 0; run scandev; setenv devnum 1; run scandev;\0" \
 	"emmcboot=setenv devtype mmc; setenv devnum 1; run scandev \0" \
-	"qspiboot=echo QSPIBOOT... ; run mtdcfg && run bootscript; && " \
+	"qspiboot=echo [INFO] QSPIBOOT... ; run mtdcfg && run bootscript; && " \
 				"run baseargs && " \
                 "sf probe 0 0 0 && " \
                 "sf read ${kernel_load_address} ${kernel_read_address} ${kernel_size} && " \
-				"echo Copying devicetree and ramdisk... && " \
+				"echo [INFO] Copying devicetree and ramdisk... && " \
                 "sf read ${devicetree_load_address} ${devicetree_read_address} ${devicetree_size} && " \
 				"sf read ${ramdisk_load_address} ${rootfs_read_address} ${ramdisk_size} && " \
-				"echo Copying FPGA bitstream... && " \
+				"echo [INFO] Copying FPGA bitstream... && " \
 				"sf read ${loadbit_addr} ${bitstream_read_address} ${bitstream_size} && " \
 				"fpga load 0 ${loadbit_addr} ${bitstream_size} && " \
 				"bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address} \0" \
-	"tftpboot=echo TFTP boot...; run baseargs;&& " \
+	"tftpboot=echo [INFO] TFTP boot...; run baseargs;&& " \
 				"tftpboot ${kernel_load_address} ${kernel_image} && " \
                 "tftpboot ${devicetree_load_address} ${devicetree_image} && " \
 				"tftpboot ${ramdisk_load_address} ${ramdisk_image} && " \
 				"tftpboot ${loadbit_addr} system.bit && " \
 				"fpga loadb 0 ${loadbit_addr} ${bitstream_size} && " \
 				"bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address} \0" \
-	"tftpupdate=echo updata another image...; sf probe 0 0 0 && run mtdcfg && run bootscript; && " \
+	"tftpupdate=echo [INFO]updata another image...; sf probe 0 0 0 && run mtdcfg && run bootscript; && " \
 				"echo ${kernel_read_address} && " \
 				"echo [INFO] TFTP start... && " \
 				"tftpboot ${kernel_load_address} ${kernel_image} && " \
@@ -109,7 +109,7 @@
 				"sf write ${ramdisk_load_address} ${rootfs_read_address} ${ramdisk_size} && " \
 				"sf write ${loadbit_addr} ${bitstream_read_address} ${bitstream_size} && " \
 				"echo [INFO] updata done! \0" \
-	"sdboot=echo SDCARD Boot Mode; setenv devtype mmc; setenv devnum 0; run scandev \0" \
+	"sdboot=echo [INFO] SDCARD Boot Mode; setenv devtype mmc; setenv devnum 0; run scandev \0" \
 	"scandev=echo [INFO] Scanning ${devtype} ${devnum}...; && " \
 		"if $devtype dev $devnum; then " \
                         "run uenvboot; " \
