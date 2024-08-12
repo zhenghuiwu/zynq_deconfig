@@ -59,9 +59,6 @@
 	num-cs = <1>;
 	flash@0 {
 		//compatible = "micron,n25q256a", "jedec,spi-nor";
-		//set mtdids nor0=nor1
-		//set mtdparts mtdparts=nor:1m@0(qspi-fsbl-uboot),64k@1m(qspi-env),1m@2m(qspi-linux-a),1m@3m(qspi-linux-b),1m@4m(arm_app),1m@5m(dsp_ubl),1m@6m(dsp_app),3m@7m(rootfs)
-		//set mtdparts mtdparts=nor1:0x1d0000@0(qspi-fsbl-uboot),0x10000@0x1d0000(qspi-flag),0x10000@0x1e0000(qspi-env),0x400000@0x200000(qspi-linux-a),0x10000@0x600000(qspi-devicetree-a),0x400000@0x610000(qspi-linux-b),0x10000@0xa10000(qspi-devicetree-b),0x400000@0xa20000(qspi-bitstream-a),0x400000@0xe20000(qspi-bitstream-b),0x640000@0x1220000(qspi-rootfs-a),0x640000@0x1860000(qspi-rootfs-b)
 		compatible = "micron,n25q256a";
 		reg = <0x0>;
 		spi-tx-bus-width = <4>;
@@ -107,11 +104,11 @@
 		};
 		partition@1220000 {
 			label = "qspi-rootfs-a";
-			reg = <0x1220000 0x640000>;
+			reg = <0x1220000 0x680000>;
 		};
-		partition@1860000 {
+		partition@18A0000 {
 			label = "qspi-rootfs-b";
-			reg = <0x1860000 0x640000>;
+			reg = <0x18A0000 0x680000>;
 		};
 	};
 };

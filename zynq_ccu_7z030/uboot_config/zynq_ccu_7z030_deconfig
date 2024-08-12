@@ -29,7 +29,7 @@ CONFIG_ENV_SECT_SIZE=0x10000
 # 表示环境变量存储在 SPI Flash 中。
 CONFIG_ENV_IS_IN_SPI_FLASH=y
 # 设置默认的启动命令为 "run $modeboot"。
-CONFIG_BOOTCOMMAND="run $modeboot && run mtdcfg"
+CONFIG_BOOTCOMMAND="run $modeboot"
 # 表示使用旧版本的镜像格式。
 CONFIG_LEGACY_IMAGE_FORMAT=y
 # QSPI启动的默认速率是50M
@@ -62,8 +62,6 @@ CONFIG_SPL_DM_SEQ_ALIAS=y
 #CONFIG_CMD_MMC=y
 # 启用 SPI Flash 命令。
 CONFIG_CMD_SF=y
-
-
 # 将设备树信息嵌入到 U-Boot 镜像中。
 CONFIG_OF_EMBED=y
 # 设置默认的设备树为 "zynq-ccu-7z030"。
@@ -92,7 +90,7 @@ CONFIG_CMD_IMLS=y
 # 启用内存测试命令。
 #CONFIG_CMD_MEMTEST=y
 # 启用 DFU (Device Firmware Upgrade) 命令,支持通过 USB 进行固件升级。
-#CONFIG_CMD_DFU=y
+CONFIG_CMD_DFU=y
 # 启用 FPGA 位流加载 'bootparam' 命令。
 CONFIG_CMD_FPGA_LOADBP=y
 # 启用 FPGA 位流加载 'full size' 命令。
@@ -206,4 +204,3 @@ CONFIG_SPI_FLASH_BAR=y
 #CONFIG_POST=y
 #从设备树中获取环境变量？
 #CONFIG_OF_CONTROL
-

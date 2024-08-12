@@ -583,47 +583,47 @@
 		#size-cells = <1>;
 		partition@0 {
 			label = "qspi-fsbl-uboot";
-			reg = <0x0 0x1E0000>;
+			reg = <0x0 0x1D0000>;
+		};
+		partition@1D0000 {
+			label = "qspi-flag";
+			reg = <0x1D0000 0x10000>;//64KB
 		};
 		partition@1E0000 {
-			label = "qspi-flag";
+			label = "qspi-env";
 			reg = <0x1E0000 0x10000>;//64KB
 		};
 		partition@200000 {
-			label = "qspi-env";
-			reg = <0x200000 0x10000>;//64KB
-		};
-		partition@210000 {
 			label = "qspi-linux-a";
-			reg = <0x210000 0x400000>;
+			reg = <0x200000 0x400000>;
+		};
+		partition@600000 {
+			label = "qspi-devicetree-a";
+			reg = <0x600000 0x10000>;
 		};
 		partition@610000 {
-			label = "qspi-devicetree-a";
-			reg = <0x610000 0x10000>;
-		};
-		partition@620000 {
 			label = "qspi-linux-b";
-			reg = <0x620000 0x400000>;
+			reg = <0x610000 0x400000>;
+		};
+		partition@A10000 {
+			label = "qspi-devicetree-b";
+			reg = <0xA10000 0x10000>;
 		};
 		partition@A20000 {
-			label = "qspi-devicetree-b";
-			reg = <0xA20000 0x10000>;
-		};
-		partition@A30000 {
 			label = "qspi-bitstream-a";
-			reg = <0xA30000 0x400000>;
+			reg = <0xA20000 0x400000>;
 		};
-		partition@E30000 {
+		partition@E20000 {
 			label = "qspi-bitstream-b";
-			reg = <0xE30000 0x400000>;
+			reg = <0xE20000 0x400000>;
 		};
-		partition@1230000 {
+		partition@1220000 {
 			label = "qspi-rootfs-a";
-			reg = <0x1230000 0x640000>;
+			reg = <0x1220000 0x680000>;
 		};
-		partition@1780000 {
+		partition@18A0000 {
 			label = "qspi-rootfs-b";
-			reg = <0x1870000 0x640000>;
+			reg = <0x18A0000 0x680000>;
 		};
 	};
 };

@@ -19,43 +19,33 @@
 /* Default environment */
 #ifndef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
-	"ethaddr=00:0a:35:00:00:00\0" \
-	"fdt_high   =0x40000000\0" \
+	"fdt_high=0x40000000\0" \
 	"initrd_high=0x40000000\0" \
-	"kernel_image=uImage\0" \
 	"kernel_load_address=0x2080000\0" \
-	"kernel_size=0x420000\0"        \
-	"ramdisk_size=0x1000000\0"       \
-	"ramdisk_image=uramdisk.image.gz\0" \
 	"ramdisk_load_address=0x4000000\0" \
-	"devicetree_image=devicetree.dtb\0" \
 	"devicetree_load_address=0x2000000\0" \
+	"loadbit_addr=0x100000\0" \
+	"loadbootenv_addr=0x2000000\0" \
+	"kernel_size=0x400000\0" \
+	"ramdisk_size=0x680000\0" \
 	"devicetree_size=0x10000\0" \
+	"bitstream_size=0x400000\0" \
+	"ethaddr=00:0a:35:00:00:00\0" \
 	"netmask=255.255.255.0\0" \
 	"serverip=192.168.1.11\0" \
 	"ipaddr=192.168.1.10\0" \
 	"gatewayip=192.168.1.1\0" \
-	"bitstream_image=system.bit.bin\0" \
-	"loadbit_addr=0x100000\0" \
+	"kernel_image=uImage\0" \
+	"ramdisk_image=uramdisk.image.gz\0" \
+	"bitbinstream_image=system.bit.bin\0" \
+	"bitstream_image=system.bit\0" \
+	"devicetree_image=devicetree.dtb\0" \
 	"bootenv=uEnv.txt\0" \
-	"loadbootenv_addr=0x2000000\0" \
-	"bitstream_size=0x400000\0" \
 	"imagesel=image-b\0" \
-	"bootscript= " \
-		"if test ${imagesel}=image-a; then " \
-			"echo Copying ${imagesel}...;" \
-			"kernel_read_address=qspi-linux-a; " \
-			"devicetree_read_address=qspi-devicetree-a; " \
-			"rootfs_read_address=qspi-rootfs-a; " \
-			"bitstream_read_address=qspi-bitstream-a; " \
-		"else " \
-			"echo Copying image-b...;" \
-			"kernel_read_address=qspi-linux-b; " \
-			"devicetree_read_address=qspi-devicetree-b; " \
-			"rootfs_read_address=qspi-rootfs-b; " \
-			"bitstream_read_address=qspi-bitstream-b; " \
-		"fi;\0" \
-	"mtdcfg=set mtdids nor1=nor1 && set mtdparts nor1:0x1d0000@0(qspi-fsbl-uboot),0x10000@0x1d0000(qspi-flag),0x10000@0x1e0000(qspi-env),0x400000@0x200000(qspi-linux-a),0x10000@0x600000(qspi-devicetree-a),0x400000@0x610000(qspi-linux-b),0x10000@0xa10000(qspi-devicetree-b),0x400000@0xa20000(qspi-bitstream-a),0x400000@0xe20000(qspi-bitstream-b),0x640000@0x1220000(qspi-rootfs-a),0x640000@0x1860000(qspi-rootfs-b);\0" \
+	"bootscript=" \
+		"if test ${imagesel} = image-b; then echo [INFO] Booting image-a...; kernel_read_address=qspi-linux-a; devicetree_read_address=qspi-devicetree-a; rootfs_read_address=qspi-rootfs-a; bitstream_read_address=qspi-bitstream-a; fi; " \
+		"if test ${imagesel} = image-a; then echo [INFO] Booting image-b...; kernel_read_address=qspi-linux-b; devicetree_read_address=qspi-devicetree-b; rootfs_read_address=qspi-rootfs-b; bitstream_read_address=qspi-bitstream-b; fi; \0" \
+	"mtdcfg=set mtdids nor1=nor1 && set mtdparts nor1:0x1d0000@0(qspi-fsbl-uboot),0x10000@0x1d0000(qspi-flag),0x10000@0x1e0000(qspi-env),0x400000@0x200000(qspi-linux-a),0x10000@0x600000(qspi-devicetree-a),0x400000@0x610000(qspi-linux-b),0x10000@0xa10000(qspi-devicetree-b),0x400000@0xa20000(qspi-bitstream-a),0x400000@0xe20000(qspi-bitstream-b),0x680000@0x1220000(qspi-rootfs-a),0x680000@0x18a0000(qspi-rootfs-b);\0" \
 	"loadbootenv=load ${devtype} ${devnum} ${loadbootenv_addr} ${bootenv}\0" \
 	"importbootenv=echo Importing environment from ${devtype} ${devnum}...; " \
 		"env import -t ${loadbootenv_addr} $filesize\0" \
@@ -82,23 +72,43 @@
 	"scanusb=setenv devtype usb && setenv devnum 0 && usb reset && usb start && usb storage && run scandev; \0" \
 	"scanmmc=setenv devtype mmc; setenv devnum 0; run scandev; setenv devnum 1; run scandev;\0" \
 	"emmcboot=setenv devtype mmc; setenv devnum 1; run scandev \0" \
-	"qspiboot=echo QSPIBOOT... ; run mtdcfg && run bootscript && run baseargs;&& " \
+	"qspiboot=echo QSPIBOOT... ; run mtdcfg && run bootscript; && " \
+				"run baseargs && " \
                 "sf probe 0 0 0 && " \
-                "sf read ${kernel_load_address} ${kernel_read_address} 0x400000 && " \
+                "sf read ${kernel_load_address} ${kernel_read_address} ${kernel_size} && " \
 				"echo Copying devicetree and ramdisk... && " \
                 "sf read ${devicetree_load_address} ${devicetree_read_address} ${devicetree_size} && " \
-				"sf read ${ramdisk_load_address} ${rootfs_read_address} 0x640000 && " \
+				"sf read ${ramdisk_load_address} ${rootfs_read_address} ${ramdisk_size} && " \
 				"echo Copying FPGA bitstream... && " \
 				"sf read ${loadbit_addr} ${bitstream_read_address} ${bitstream_size} && " \
 				"fpga load 0 ${loadbit_addr} ${bitstream_size} && " \
 				"bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address} \0" \
 	"tftpboot=echo TFTP boot...; run baseargs;&& " \
-				"tftpboot ${kernel_load_address} uImage && " \
-                "tftpboot ${devicetree_load_address} zynq-ccu-7z030.dtb && " \
-				"tftpboot ${ramdisk_load_address} uramdisk.image.gz && " \
+				"tftpboot ${kernel_load_address} ${kernel_image} && " \
+                "tftpboot ${devicetree_load_address} ${devicetree_image} && " \
+				"tftpboot ${ramdisk_load_address} ${ramdisk_image} && " \
 				"tftpboot ${loadbit_addr} system.bit && " \
 				"fpga loadb 0 ${loadbit_addr} ${bitstream_size} && " \
 				"bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address} \0" \
+	"tftpupdate=echo updata another image...; sf probe 0 0 0 && run mtdcfg && run bootscript; && " \
+				"echo ${kernel_read_address} && " \
+				"echo [INFO] TFTP start... && " \
+				"tftpboot ${kernel_load_address} ${kernel_image} && " \
+                "tftpboot ${devicetree_load_address} ${devicetree_image} && " \
+				"tftpboot ${ramdisk_load_address} ${ramdisk_image} && " \
+				"tftpboot ${loadbit_addr} ${bitbinstream_image} && " \
+				"echo [INFO] Flash erase start... && " \
+				"sf erase ${kernel_read_address} ${kernel_size}  && " \
+				"sf erase ${rootfs_read_address} ${ramdisk_size} && " \
+				"sf erase ${devicetree_read_address} ${devicetree_size} && " \
+				"sf erase ${bitstream_read_address} ${bitstream_size} && " \
+				"echo [INFO] Flash erase done! && " \
+				"echo [INFO] Flash write start... && " \
+				"sf write ${kernel_load_address} ${kernel_read_address} ${kernel_size} && " \
+				"sf write ${devicetree_load_address} ${devicetree_read_address} ${devicetree_size} && " \
+				"sf write ${ramdisk_load_address} ${rootfs_read_address} ${ramdisk_size} && " \
+				"sf write ${loadbit_addr} ${bitstream_read_address} ${bitstream_size} && " \
+				"echo [INFO] updata done! \0" \
 	"sdboot=echo SDCARD Boot Mode; setenv devtype mmc; setenv devnum 0; run scandev \0" \
 	"scandev=echo [INFO] Scanning ${devtype} ${devnum}...; && " \
 		"if $devtype dev $devnum; then " \
