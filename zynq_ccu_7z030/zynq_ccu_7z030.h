@@ -26,10 +26,12 @@
 	"devicetree_load_address=0x2000000\0" \
 	"loadbit_addr=0x100000\0" \
 	"loadbootenv_addr=0x2000000\0" \
+	"flag_load_adress=0x3080000\0" \
 	"kernel_size=0x400000\0" \
 	"ramdisk_size=0x680000\0" \
 	"devicetree_size=0x10000\0" \
 	"bitstream_size=0x400000\0" \
+	"flag_size=0x10000\0" \
 	"ethaddr=00:0a:35:00:00:00\0" \
 	"netmask=255.255.255.0\0" \
 	"serverip=192.168.1.11\0" \
@@ -41,10 +43,11 @@
 	"bitstream_image=system.bit\0" \
 	"devicetree_image=devicetree.dtb\0" \
 	"bootenv=uEnv.txt\0" \
+	"flag=qspi-flag.txt\0" \
 	"imagesel=image-b\0" \
 	"bootscript=" \
-		"if test ${imagesel} = image-b; then echo [INFO] Booting image-a...; kernel_read_address=qspi-linux-a; devicetree_read_address=qspi-devicetree-a; rootfs_read_address=qspi-rootfs-a; bitstream_read_address=qspi-bitstream-a; fi; " \
-		"if test ${imagesel} = image-a; then echo [INFO] Booting image-b...; kernel_read_address=qspi-linux-b; devicetree_read_address=qspi-devicetree-b; rootfs_read_address=qspi-rootfs-b; bitstream_read_address=qspi-bitstream-b; fi; \0" \
+		"if test ${imagesel} = image-a; then echo [INFO] Booting image-a...; kernel_read_address=qspi-linux-a; devicetree_read_address=qspi-devicetree-a; rootfs_read_address=qspi-rootfs-a; bitstream_read_address=qspi-bitstream-a; fi; " \
+		"if test ${imagesel} = image-b; then echo [INFO] Booting image-b...; kernel_read_address=qspi-linux-b; devicetree_read_address=qspi-devicetree-b; rootfs_read_address=qspi-rootfs-b; bitstream_read_address=qspi-bitstream-b; fi; \0" \
 	"mtdcfg=set mtdids nor1=nor1 && set mtdparts nor1:0x1d0000@0(qspi-fsbl-uboot),0x10000@0x1d0000(qspi-flag),0x10000@0x1e0000(qspi-env),0x400000@0x200000(qspi-linux-a),0x10000@0x600000(qspi-devicetree-a),0x400000@0x610000(qspi-linux-b),0x10000@0xa10000(qspi-devicetree-b),0x400000@0xa20000(qspi-bitstream-a),0x400000@0xe20000(qspi-bitstream-b),0x680000@0x1220000(qspi-rootfs-a),0x680000@0x18a0000(qspi-rootfs-b);\0" \
 	"loadbootenv=load ${devtype} ${devnum} ${loadbootenv_addr} ${bootenv}\0" \
 	"importbootenv=echo Importing environment from ${devtype} ${devnum}...; " \
@@ -58,7 +61,7 @@
 	"mmc0_root=setenv root /dev/mmcblk0p2\0" \
 	"mmc1_root=setenv root /dev/mmcblk1p2\0" \
 	"console=console=ttyPS0,115200 \0" \
-	"baseargs=setenv bootargs console=ttyPS0,115200 root=/dev/ram0 rw rootfstype=ext4 rootwait ip=192.168.1.10:192.168.1.11:192.168.1.1:255.255.255.0::eth0:off ${optargs}\0" \
+	"baseargs=setenv bootargs console=ttyPS0,115200 root=/dev/ram0 rw rootfstype=ext4 rootwait ip=192.168.1.10:192.168.1.11:192.168.1.1:255.255.255.0::eth0:off ${imagesel}\0" \
 	"loadkernel=load ${devtype} ${devnum} ${kernel_load_address} ${kernel_image}\0" \
 	"loaddtb=load ${devtype} ${devnum} ${devicetree_load_address} ${devicetree_image}\0" \
 	"loadinitrd=load ${devtype} ${devnum} ${ramdisk_load_address} ${ramdisk_image}\0" \
@@ -109,6 +112,15 @@
 				"sf write ${ramdisk_load_address} ${rootfs_read_address} ${ramdisk_size} && " \
 				"sf write ${loadbit_addr} ${bitstream_read_address} ${bitstream_size} && " \
 				"echo [INFO] Flash updata done! \0" \
+	"flagupdate=echo [INFO] flag updating...; sf probe 0 0 0 && run mtdcfg && " \
+				"echo [INFO] TFTP start... && " \
+				"tftpboot ${flag_load_adress} ${flag} &&" \
+				"echo [INFO] Flash erase start... && " \
+				"sf erase qspi-flag ${flag_size}  && " \
+				"echo [INFO] Flash erase done! && " \
+				"echo [INFO] Flash write start... && " \
+				"sf write ${flag_load_adress} qspi-flag ${flag_size} && " \
+				"echo [INFO] Flash qspi-flag updata done! \0" \
 	"sdboot=echo [INFO] SDCARD Boot Mode; setenv devtype mmc; setenv devnum 0; run scandev \0" \
 	"scandev=echo [INFO] Scanning ${devtype} ${devnum}...; && " \
 		"if $devtype dev $devnum; then " \

@@ -200,7 +200,6 @@ CONFIG_ZYNQ_SERIAL=y
 CONFIG_ZYNQ_QSPI=y
 #支持4 Byte地址模式
 CONFIG_SPI_FLASH_BAR=y
-
 #上电自检测
 #CONFIG_POST=y
 #从设备树中获取环境变量？
