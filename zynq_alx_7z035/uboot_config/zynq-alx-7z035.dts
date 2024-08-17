@@ -1,0 +1,189 @@
+/*
+ *  Copyright (C) 2011 - 2014 Xilinx
+ *  Copyright (C) 2012 National Instruments Corp.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+#define GPIO_ACTIVE_HIGH 1
+#define GPIO_ACTIVE_LOW 0
+
+/dts-v1/;
+/include/ "zynq-7000.dtsi"
+
+/ {
+	model = "Zynq ALX Development Board";
+	compatible = "xlnx,zynq-MZ7X", "xlnx,zynq-7000";
+
+	aliases {
+		ethernet0 = &gem0;
+		serial0 = &uart1;
+		spi0 = &qspi;
+		mmc0 = &sdhci0;
+		mmc1 = &sdhci1;
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x40000000>;
+	};
+
+	chosen {
+		bootargs = "";
+		stdout-path = "serial0:115200n8";
+	};
+
+	usb_phy0: phy0@e0002000 {
+		compatible = "ulpi-phy";
+		#phy-cells = <0>;
+		reg = <0xe0002000 0x1000>;
+		view-port = <0x0170>;
+		drv-vbus;
+	};
+
+	led {
+		compatible = "alk,led";
+		status = "okay";
+		default-state = "on";
+		led-gpio = <&gpio0 0 GPIO_ACTIVE_LOW>;
+	};
+
+	key {
+		compatible = "mlk,key";
+		status = "okay";
+		key-gpio = <&gpio0 11 GPIO_ACTIVE_LOW>;
+	};
+};
+
+/ {
+	cpus {
+		cpu@0 {
+			operating-points = <666666 1000000 333333 1000000>;
+		};
+	};
+};
+
+&gem0 {
+	status = "okay";
+	phy-mode = "rgmii-id";
+	phy-handle = <&ethernet_phy>;
+	xlnx,ptp-enet-clock = <0x69f6bcb>;
+	local-mac-address = [00 0a 35 00 00 00];
+	ethernet_phy: ethernet-phy@1 {
+		reg = <0x01>;
+		device_type = "ethernet-phy";
+	};
+};
+
+&intc {
+	num_cpus = <2>;
+	num_interrupts = <96>;
+};
+&qspi {
+	u-boot,dm-pre-reloc;
+	status = "okay";
+	is-dual = <0>;
+	num-cs = <1>;
+	flash@0 {
+		//set mtdids nor0=nor1
+		//set mtdparts mtdparts=nor1:0x1d0000@0(qspi-fsbl-uboot),0x10000@0x1d0000(qspi-flag),0x10000@0x1e0000(qspi-env),0x400000@0x200000(qspi-linux-a),0x10000@0x600000(qspi-devicetree-a),0x400000@0x610000(qspi-linux-b),0x10000@0xa10000(qspi-devicetree-b),0x400000@0xa20000(qspi-bitstream-a),0x400000@0xe20000(qspi-bitstream-b),0x640000@0x1220000(qspi-rootfs-a),0x640000@0x1860000(qspi-rootfs-b)
+		compatible = "w25q256";
+		reg = <0x0>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+		spi-max-frequency = <50000000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		partition@0 {
+			label = "qspi-fsbl-uboot";
+			reg = <0x0 0x1D0000>;
+		};
+		partition@1D0000 {
+			label = "qspi-flag";
+			reg = <0x1D0000 0x10000>;//64KB
+		};
+		partition@1E0000 {
+			label = "qspi-env";
+			reg = <0x1E0000 0x10000>;//64KB
+		};
+		partition@200000 {
+			label = "qspi-linux-a";
+			reg = <0x200000 0x400000>;
+		};
+		partition@600000 {
+			label = "qspi-devicetree-a";
+			reg = <0x600000 0x10000>;
+		};
+		partition@610000 {
+			label = "qspi-linux-b";
+			reg = <0x610000 0x400000>;
+		};
+		partition@A10000 {
+			label = "qspi-devicetree-b";
+			reg = <0xA10000 0x10000>;
+		};
+		partition@A20000 {
+			label = "qspi-bitstream-a";
+			reg = <0xA20000 0x400000>;
+		};
+		partition@E20000 {
+			label = "qspi-bitstream-b";
+			reg = <0xE20000 0x400000>;
+		};
+		partition@1220000 {
+			label = "qspi-rootfs-a";
+			reg = <0x1220000 0x640000>;
+		};
+		partition@1860000 {
+			label = "qspi-rootfs-b";
+			reg = <0x1860000 0x640000>;
+		};
+	};
+};
+
+&sdhci0 {
+	status = "okay";
+	xlnx,has-cd = <0x1>;
+	xlnx,has-power = <0x0>;
+	xlnx,has-wp = <0x0>;
+};
+
+&sdhci1 {
+	status = "okay";
+	xlnx,has-cd = <0x0>;
+	xlnx,has-power = <0x0>;
+	xlnx,has-wp = <0x0>;
+};
+
+&uart1 {
+	cts-override ;
+	device_type = "serial";
+	port-number = <0>;
+	status = "okay";
+	u-boot,dm-pre-reloc;
+};
+
+&clkc {
+	fclk-enable = <0x0>;
+	ps-clk-frequency = <33333333>;
+};
+
+&gpio0 {
+	emio-gpio-width = <64>;
+	gpio-mask-high = <0x0>;
+	gpio-mask-low = <0x5600>;
+};
+
+&usb0 {
+	status = "okay";
+	phy_type = "ulpi";
+	dr_mode = "host";
+	usb-phy = <&usb_phy0>;
+	usb-reset = <&gpio0 8 0>;
+};

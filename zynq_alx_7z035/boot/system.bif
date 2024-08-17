@@ -1,0 +1,9 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]./FSBL.elf
+	./u-boot.elf
+	[offset = 0x150000]./uImage
+	[offset = 0x550000]./zynq-alx-7z035.dtb
+	[offset = 0x570000]./uramdisk.image.gz
+}
