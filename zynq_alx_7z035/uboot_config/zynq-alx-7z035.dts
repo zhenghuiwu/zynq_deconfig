@@ -170,7 +170,7 @@
 };
 
 &clkc {
-	fclk-enable = <0x0>;
+	fclk-enable = <0x1>;
 	ps-clk-frequency = <33333333>;
 };
 
@@ -186,4 +186,10 @@
 	dr_mode = "host";
 	usb-phy = <&usb_phy0>;
 	usb-reset = <&gpio0 8 0>;
+};
+
+&watchdog0 {
+    status = "okay";
+    reset-on-timeout;
+    timeout-sec = <60>;
 };

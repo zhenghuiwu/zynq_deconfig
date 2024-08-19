@@ -90,7 +90,7 @@ CONFIG_CMD_IMLS=y
 # 启用内存测试命令。
 #CONFIG_CMD_MEMTEST=y
 # 启用 DFU (Device Firmware Upgrade) 命令,支持通过 USB 进行固件升级。
-#CONFIG_CMD_DFU=y
+CONFIG_CMD_DFU=y
 # 启用 FPGA 位流加载 'bootparam' 命令。
 CONFIG_CMD_FPGA_LOADBP=y
 # 启用 FPGA 位流加载 'full size' 命令。
@@ -204,3 +204,6 @@ CONFIG_SPI_FLASH_BAR=y
 #CONFIG_POST=y
 #从设备树中获取环境变量？
 #CONFIG_OF_CONTROL
+CONFIG_WATCHDOG=y
+CONFIG_WDT=y
+CONFIG_WDT_CDNS=y
